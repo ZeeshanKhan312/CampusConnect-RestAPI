@@ -24,9 +24,9 @@ public class TeacherEntity {
     String teacherName;
 
     @NonNull
-    int subjectId;
-
-    @NonNull
     String salary;
+
+    @OneToOne
+    SubjectEntity subject;
 
 }

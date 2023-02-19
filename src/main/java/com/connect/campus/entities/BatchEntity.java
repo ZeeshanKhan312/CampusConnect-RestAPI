@@ -1,13 +1,12 @@
 package com.connect.campus.entities;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.List;
 
 @Entity
 @Table(name = "BatchTable")
@@ -27,12 +26,17 @@ public class BatchEntity {
   @NonNull
   String feesAmount;
 
-  String scheduleId;
-
   @NonNull
   String currentSemester;
 
+  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  List<ScheduleEntity> scheduleList;
 
+  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  List<ExamScheduleEntity> examScheduleList;
+
+  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  List<StudentEntity> studentList;
   public BatchEntity() {
     batchId = null;
   }

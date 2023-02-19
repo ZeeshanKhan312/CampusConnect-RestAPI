@@ -19,4 +19,7 @@ public class SubjectEntity {
 
     @NonNull
     String subjectName;
+
+    @OneToOne(mappedBy = "subject")
+    TeacherEntity teacher;
 }

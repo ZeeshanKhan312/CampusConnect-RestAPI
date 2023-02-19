@@ -28,6 +28,9 @@ public class ExamScheduleEntity {
     @NonNull
     String roomAllotted;
 
-    @NonNull
-    String batchId;
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
+    BatchEntity batch;
+
+
 }

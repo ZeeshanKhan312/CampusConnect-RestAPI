@@ -23,9 +23,6 @@ public class StudentEntity {
     String studentName;
 
     @NonNull
-    String batchId;
-
-    @NonNull
     String studentEmail;
 
     @NonNull
@@ -34,6 +31,9 @@ public class StudentEntity {
     @NonNull
     Boolean feesPaid;
 
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
+    BatchEntity batch;
 
     public StudentEntity() {
         feesPaid = true;

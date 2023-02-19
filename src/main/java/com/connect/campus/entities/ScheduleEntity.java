@@ -24,6 +24,9 @@ public class ScheduleEntity {
     String slot4;
     String slot5;
 
+    @ManyToOne
+    @JoinColumn(name = "batch_id")
+    BatchEntity batch;
     public ScheduleEntity() {
         scheduleId=null;
     }
