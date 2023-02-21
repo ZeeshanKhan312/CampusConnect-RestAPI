@@ -13,7 +13,7 @@ public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_generator")
     @SequenceGenerator(name = "schedule_id_generator",initialValue =100,allocationSize = 1,sequenceName = "schedule_table_sequence")
-    String scheduleId;
+    int scheduleId;
     @NonNull
     String commonId;
     @NonNull
