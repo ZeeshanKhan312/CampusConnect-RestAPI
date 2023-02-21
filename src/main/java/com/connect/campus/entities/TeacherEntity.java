@@ -26,7 +26,8 @@ public class TeacherEntity {
     @NonNull
     String salary;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id")
     SubjectEntity subject;
 
 }

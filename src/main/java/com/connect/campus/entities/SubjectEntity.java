@@ -20,6 +20,7 @@ public class SubjectEntity {
     @NonNull
     String subjectName;
 
-    @OneToOne(mappedBy = "subject")
+    //name should be same as the object in other class(TeacherEntity)
+    @OneToOne(mappedBy = "subject") // will not create foreign key in Subject Table and will map it with help of subject
     TeacherEntity teacher;
 }
