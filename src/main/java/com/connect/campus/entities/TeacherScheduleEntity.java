@@ -7,14 +7,15 @@ import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name = "ScheduleTable")
-@DynamicUpdate
+@Table(name = "TeacherSchedule")
 @Data
 @NoArgsConstructor
-public class ScheduleEntity {
+@DynamicUpdate
+public class TeacherScheduleEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_generator")
-    @SequenceGenerator(name = "schedule_id_generator", initialValue = 230, allocationSize = 4, sequenceName= "schedule_id_table")
+    @SequenceGenerator(name = "schedule_id_generator", initialValue = 440, allocationSize = 4, sequenceName= "schedule_id_table")
     int scheduleId;
 
     @NonNull
@@ -24,5 +25,4 @@ public class ScheduleEntity {
     String slot3;
     String slot4;
     String slot5;
-
 }

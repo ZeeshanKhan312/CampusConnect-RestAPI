@@ -1,10 +1,13 @@
 package com.connect.campus.dao;
 
-import com.project.etudiant.entities.ScheduleEntity;
+import com.connect.campus.entities.ScheduleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity,Integer > {
-    public ScheduleEntity findByScheduleId(int schedule_id);
+    @Query(value = "SELECT * FROM schedule_table WHERE batch_id=:batchId AND day=:day1", nativeQuery = true)
+    public ScheduleEntity findByBatchIdAndDay(@Param("batchId")String batch_id, @Param("day1") String day);
 }

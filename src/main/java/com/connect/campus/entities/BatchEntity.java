@@ -2,6 +2,7 @@ package com.connect.campus.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
@@ -12,9 +13,10 @@ import java.util.List;
 @Table(name = "BatchTable")
 @Data
 @DynamicUpdate
+@Transactional
 public class BatchEntity {
 
-  @Column(name = "BatchID")
+  @Column(name = "batch_id")
   @Id
   String batchId;
   @NonNull
@@ -29,14 +31,18 @@ public class BatchEntity {
   @NonNull
   String currentSemester;
 
-  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
   List<ScheduleEntity> scheduleList;
 
-  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
   List<ExamScheduleEntity> examScheduleList;
 
-  @OneToMany(mappedBy = "batch",cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
   List<StudentEntity> studentList;
+
   public BatchEntity() {
     batchId = null;
   }

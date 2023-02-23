@@ -1,6 +1,6 @@
 package com.connect.campus.dao;
 
-import com.project.etudiant.entities.BatchEntity;
+import com.connect.campus.entities.BatchEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

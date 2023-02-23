@@ -7,15 +7,16 @@ import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@Table(name = "exam_schedule")
 @Data
 @DynamicUpdate
-@Table(name = "exam_schedule")
 @NoArgsConstructor
 public class ExamScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_id_generator")
-    @SequenceGenerator(name = "exam_id_generator",initialValue =1000,allocationSize = 10,sequenceName = "exam_table_sequence")
+    @SequenceGenerator(name = "exam_id_generator", initialValue = 8000, allocationSize = 7, sequenceName= "exam_id_table")
     String examId;
+
     @NonNull
     String date;
 
@@ -27,10 +28,5 @@ public class ExamScheduleEntity {
 
     @NonNull
     String roomAllotted;
-
-    @ManyToOne
-    @JoinColumn(name = "batch_id")
-    BatchEntity batch;
-
 
 }

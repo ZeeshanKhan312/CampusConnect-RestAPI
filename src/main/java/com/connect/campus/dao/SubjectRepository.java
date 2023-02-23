@@ -1,6 +1,6 @@
 package com.connect.campus.dao;
 
-import com.project.etudiant.entities.SubjectEntity;
+import com.connect.campus.entities.SubjectEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

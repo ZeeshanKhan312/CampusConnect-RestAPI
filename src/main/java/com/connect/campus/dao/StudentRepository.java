@@ -1,6 +1,6 @@
 package com.connect.campus.dao;
 
-import com.project.etudiant.entities.StudentEntity;
+import com.connect.campus.entities.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
