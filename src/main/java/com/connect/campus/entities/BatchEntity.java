@@ -1,6 +1,5 @@
 package com.connect.campus.entities;
 
-
 import jakarta.persistence.*;
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -13,9 +12,7 @@ import java.util.List;
 @Table(name = "BatchTable")
 @Data
 @DynamicUpdate
-@Transactional
 public class BatchEntity {
-
   @Column(name = "batch_id")
   @Id
   String batchId;
@@ -27,7 +24,6 @@ public class BatchEntity {
   String courseDuration;
   @NonNull
   String feesAmount;
-
   @NonNull
   String currentSemester;
 

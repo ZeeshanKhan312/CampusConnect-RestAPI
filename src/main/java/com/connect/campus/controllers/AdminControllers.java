@@ -24,7 +24,7 @@ public class AdminControllers {
     }
     @PostMapping("/add_batch")
     public void addBatch(@RequestBody BatchEntity batch){
-    adminServices.addBatch(batch);
+        adminServices.addBatch(batch);
     }
 
     @GetMapping("/get_batches")
@@ -37,24 +37,19 @@ public class AdminControllers {
         return adminServices.searchBatch(id);
     }
 
-
     @PutMapping("/update_schedule")
-    public void updateSchedule(@RequestParam String batchId, @RequestBody ScheduleEntity schedule){
-        adminServices.updateSchedule(batchId,schedule);
-    }
-    @PostMapping("/add_student")
-    public void adding_student(@RequestParam String batchId,@RequestBody StudentEntity student){
-        adminServices.addStudent(batchId,student);
+    public void updateBatchSchedule(@RequestParam String batchId, @RequestBody ScheduleEntity schedule){
+        adminServices.updateBatchSchedule(batchId,schedule);
     }
 
-    @GetMapping("/fetch_batch_student")
-    public List<StudentEntity> fetching_batch(@RequestParam String batchId){
-        return adminServices.fetchStudentBatch(batchId);
+    @PostMapping("/add_student")
+    public void adding_student(@RequestParam String batchId,@RequestBody List<StudentEntity> students){
+        adminServices.addStudent(batchId,students);
     }
 
     @GetMapping("/search_student")
-    public StudentEntity findingStudent(@RequestParam int sId){
-        return adminServices.fetchStudentById(sId);
+    public List<StudentEntity> findingStudent(@RequestParam String name){
+        return adminServices.searchStudent(name);
     }
 
     @DeleteMapping("/remove_student")
@@ -68,8 +63,8 @@ public class AdminControllers {
     }
 
     @PostMapping("/add_exam_schedule")
-    public void addingExamSchedule(@RequestBody List<ExamScheduleEntity> examSchedule){
-        adminServices.addExamSchedule(examSchedule);
+    public void addingExamSchedule(@RequestParam String batchId,@RequestBody List<ExamScheduleEntity> examSchedule){
+        adminServices.addExamSchedule(batchId,examSchedule);
     }
 
     @GetMapping("/fetch_exam_schedule")
@@ -82,15 +77,19 @@ public class AdminControllers {
         adminServices.addTeacher(teacher);
     }
 
-
     @GetMapping("/get_teacher")
     public List<TeacherEntity> getTeacher(){
-            return adminServices.getAllTeacher();
+        return adminServices.getAllTeacher();
     }
 
     @DeleteMapping("/remove_teacher")
     public void removing_teacher(@RequestParam int teacherId){
         adminServices.removeTeacher(teacherId);
+    }
+
+    @PutMapping("/update_teacher_schedule")
+    public void updateTeacherSchedule(@RequestParam int  teacherId, @RequestBody TeacherScheduleEntity teacherSchedule){
+        adminServices.updateTeacherSchedule(teacherId,teacherSchedule);
     }
 
     @PutMapping("/update_salary")

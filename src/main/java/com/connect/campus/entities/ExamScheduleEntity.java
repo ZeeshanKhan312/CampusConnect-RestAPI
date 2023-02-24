@@ -14,8 +14,8 @@ import org.hibernate.annotations.DynamicUpdate;
 public class ExamScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exam_id_generator")
-    @SequenceGenerator(name = "exam_id_generator", initialValue = 8000, allocationSize = 7, sequenceName= "exam_id_table")
-    String examId;
+    @SequenceGenerator(name = "exam_id_generator",initialValue =1000,allocationSize = 10,sequenceName = "exam_table_sequence")
+    int examId;
 
     @NonNull
     String date;

@@ -19,7 +19,7 @@ public class TeacherEntity {
     @Id
     @Column(name = "teacher_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "teacher_id_generator")
-    @SequenceGenerator(name = "teacher_id_generator", initialValue = 500, allocationSize = 2, sequenceName= "teacher_id_table")
+    @SequenceGenerator(name = "teacher_id_generator",initialValue =3000,allocationSize = 10,sequenceName = "teacher_table_sequence")
     int teacherId;
 
     @NonNull

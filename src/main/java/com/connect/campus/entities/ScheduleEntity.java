@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class ScheduleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_generator")
-    @SequenceGenerator(name = "schedule_id_generator", initialValue = 230, allocationSize = 4, sequenceName= "schedule_id_table")
+    @SequenceGenerator(name = "schedule_id_generator", initialValue = 230, allocationSize = 2, sequenceName= "schedule_table_sequence")
     int scheduleId;
 
     @NonNull

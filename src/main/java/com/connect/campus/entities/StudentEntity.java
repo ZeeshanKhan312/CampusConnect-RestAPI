@@ -13,7 +13,7 @@ public class StudentEntity {
     @Id
     @Column(name ="studentID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "student_id_generator")
-    @SequenceGenerator(name = "student_id_generator",initialValue = 2000,allocationSize = 1,sequenceName = "student_id_sequence")
+    @SequenceGenerator(name = "student_id_generator",initialValue = 2000,allocationSize = 1,sequenceName = "student_table_sequence")
     int studentId;
 
     @NonNull

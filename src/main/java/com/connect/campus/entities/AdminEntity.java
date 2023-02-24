@@ -15,7 +15,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 public class AdminEntity {
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
     String adminId;
     @NonNull
     String password;

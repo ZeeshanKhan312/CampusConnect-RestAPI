@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ExamScheduleRepository extends JpaRepository<ExamScheduleEntity, String> {
-    public ExamScheduleEntity findByExamId(String examId);
-
+public interface ExamScheduleRepository extends JpaRepository<ExamScheduleEntity, Integer> {
     @Query(value = "SELECT * FROM exam_schedule WHERE batch_id=:batchId", nativeQuery = true)
     public List<ExamScheduleEntity> findByExamSchedule(@Param("batchId") String batchId);
 
