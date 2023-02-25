@@ -13,8 +13,6 @@ import java.util.List;
 @Table(name = "Teacher_table")
 @Data
 @DynamicUpdate
-@NoArgsConstructor
-@Transactional
 public class TeacherEntity {
     @Id
     @Column(name = "teacher_id")
@@ -37,6 +35,9 @@ public class TeacherEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
-    List<TeacherScheduleEntity> teacherSchedule;
+    List<TeacherScheduleEntity> teacherSchedules;
 
+    public TeacherEntity() {
+        teacherPassword="abc123";
+    }
 }

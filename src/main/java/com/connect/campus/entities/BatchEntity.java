@@ -1,7 +1,6 @@
 package com.connect.campus.entities;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
@@ -29,15 +28,15 @@ public class BatchEntity {
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
-  List<ScheduleEntity> scheduleList;
+  List<ScheduleEntity> schedules;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
-  List<ExamScheduleEntity> examScheduleList;
+  List<ExamScheduleEntity> examSchedules;
 
   @OneToMany(cascade = CascadeType.ALL)
   @JoinColumn(name = "batch_id",referencedColumnName = "batch_id")
-  List<StudentEntity> studentList;
+  List<StudentEntity> students;
 
   public BatchEntity() {
     batchId = null;

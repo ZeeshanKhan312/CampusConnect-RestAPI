@@ -33,5 +33,6 @@ public class StudentEntity {
 
     public StudentEntity() {
         feesPaid = true;
+        password="12345";
     }
 }

@@ -12,7 +12,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @DynamicUpdate
 public class TeacherScheduleEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_id_generator")
     @SequenceGenerator(name = "schedule_id_generator", initialValue = 440, allocationSize = 4, sequenceName= "schedule_id_table")

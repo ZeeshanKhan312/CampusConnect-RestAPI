@@ -69,7 +69,7 @@ public class AdminServices {
 
     public void addStudent(String batchId,List<StudentEntity> students){
         BatchEntity batch=batchRepository.findByBatchId(batchId);
-        List<StudentEntity> studentList=batch.getStudentList();
+        List<StudentEntity> studentList=batch.getStudents();
         studentList.addAll(students);
         batchRepository.save(batch);
     }
@@ -91,7 +91,7 @@ public class AdminServices {
 
     public void addExamSchedule(String batchId,List<ExamScheduleEntity> examSchedule){
         BatchEntity batch=batchRepository.findByBatchId(batchId);
-        batch.setExamScheduleList(examSchedule);
+        batch.setExamSchedules(examSchedule);
         batchRepository.save(batch);
     }
 
