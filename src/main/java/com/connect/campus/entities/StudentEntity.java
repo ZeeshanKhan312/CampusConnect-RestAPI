@@ -31,6 +31,8 @@ public class StudentEntity {
     @NonNull
     Boolean feesPaid;
 
+    String transactionId;
+
     public StudentEntity() {
         feesPaid = true;
         password="12345";

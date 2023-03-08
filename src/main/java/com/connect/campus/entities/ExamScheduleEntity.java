@@ -27,6 +27,6 @@ public class ExamScheduleEntity {
     String time;
 
     @NonNull
-    String roomAllotted;
+    String roomAllocated;
 
 }

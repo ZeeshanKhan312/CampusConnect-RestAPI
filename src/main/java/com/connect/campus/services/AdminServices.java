@@ -4,6 +4,8 @@ import com.connect.campus.dao.*;
 import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,9 +85,10 @@ public class AdminServices {
         studentRepository.deleteById(id);
     }
 
-    public void updateFeesStatus(int id){
+    public void updateFeesStatus(int id,String transactionId){
         StudentEntity student= studentRepository.findByStudentId(id); //fetching student object by its id
         student.setFeesPaid(true);  //updating fees status in student obj (local not in table)
+        student.setTransactionId(transactionId);
         studentRepository.save(student); //updating in table
     }
 
@@ -100,6 +103,20 @@ public class AdminServices {
         schedule = examScheduleRepository.findByExamSchedule(batchId);
         return schedule;
     }
+
+    public void updateBatchSemester(String batchId, String currSem){
+        BatchEntity batch= batchRepository.findByBatchId(batchId);
+        batch.setCurrentSemester(currSem);
+        List<StudentEntity> students=batch.getStudents();
+        for(StudentEntity student: students){
+            student.setFeesPaid(false);
+            student.setTransactionId(null);
+        }
+        //need to check whether batch.students need to clear first or is it being handled by the setter method
+        batch.setStudents(students);
+        batchRepository.save(batch);
+    }
+
     public void addTeacher(TeacherEntity teacher){
         teacherRepository.save(teacher);
     }
@@ -112,6 +129,11 @@ public class AdminServices {
 
     public void removeTeacher(int teacherId){
         teacherRepository.deleteById(teacherId);
+    }
+
+    public List<TeacherEntity> searchTeacher(String name){
+        List<TeacherEntity> teachers =teacherRepository.findByTeacherName(name);
+        return teachers;
     }
 
     public void updateTeacherSchedule(int teacherId,TeacherScheduleEntity teacherSchedule){

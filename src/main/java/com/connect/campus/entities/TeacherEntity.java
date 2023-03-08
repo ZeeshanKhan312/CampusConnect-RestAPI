@@ -10,7 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.util.List;
 
 @Entity
-@Table(name = "Teacher_table")
+@Table(name = "teacher_table")
 @Data
 @DynamicUpdate
 public class TeacherEntity {
@@ -25,6 +25,8 @@ public class TeacherEntity {
 
     @NonNull
     String teacherName;
+
+    String teacherEmail;
 
     @NonNull
     String salary;

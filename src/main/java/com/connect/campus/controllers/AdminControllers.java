@@ -33,11 +33,11 @@ public class AdminControllers {
     }
 
     @GetMapping("/search_batch")
-    public BatchEntity searchBatch(@RequestParam String id){
-        return adminServices.searchBatch(id);
+    public BatchEntity searchBatch(@RequestParam String batchId){
+        return adminServices.searchBatch(batchId);
     }
 
-    @PutMapping("/update_schedule")
+    @PutMapping("/update_batch_schedule")
     public void updateBatchSchedule(@RequestParam String batchId, @RequestBody ScheduleEntity schedule){
         adminServices.updateBatchSchedule(batchId,schedule);
     }
@@ -53,13 +53,13 @@ public class AdminControllers {
     }
 
     @DeleteMapping("/remove_student")
-    public void removeStudent(@RequestParam int id){
-        adminServices.removeStudent(id);
+    public void removeStudent(@RequestParam int studentId){
+        adminServices.removeStudent(studentId);
     }
 
     @PutMapping("/update_fees_status")
-    public void updateFees(@RequestParam int id){
-        adminServices.updateFeesStatus(id);
+    public void updateFees(@RequestParam int studentId,@RequestParam String transactionId){
+        adminServices.updateFeesStatus(studentId,transactionId);
     }
 
     @PostMapping("/add_exam_schedule")
@@ -70,6 +70,11 @@ public class AdminControllers {
     @GetMapping("/fetch_exam_schedule")
     public List<ExamScheduleEntity> fetchingExamSchedule(@RequestParam String batchId){
         return adminServices.fetchExamSchedule(batchId);
+    }
+
+    @PutMapping("/update_batch_semester")
+    public void updateSemester(@RequestParam String batchId, @RequestParam String currSem){
+        adminServices.updateBatchSemester(batchId, currSem);
     }
 
     @PostMapping("/add_teacher")
@@ -85,6 +90,11 @@ public class AdminControllers {
     @DeleteMapping("/remove_teacher")
     public void removing_teacher(@RequestParam int teacherId){
         adminServices.removeTeacher(teacherId);
+    }
+
+    @GetMapping("/search_teacher")
+    public List<TeacherEntity> searchTeacher(@RequestParam String name){
+     return adminServices.searchTeacher(name);
     }
 
     @PutMapping("/update_teacher_schedule")
