@@ -1,7 +1,6 @@
 package com.connect.campus.entities;
 
-import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

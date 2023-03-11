@@ -1,7 +1,6 @@
 package com.connect.campus.entities;
 
-import jakarta.persistence.*;
-import jakarta.transaction.Transactional;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,7 +11,6 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @DynamicUpdate
 @Entity
-@Transactional
 public class SubjectEntity {
     @Id
     @Column(name = "subject_id")

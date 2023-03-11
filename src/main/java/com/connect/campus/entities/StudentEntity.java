@@ -1,6 +1,6 @@
 package com.connect.campus.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;

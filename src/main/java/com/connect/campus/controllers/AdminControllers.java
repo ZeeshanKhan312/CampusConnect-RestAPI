@@ -3,6 +3,8 @@ package com.connect.campus.controllers;
 import com.connect.campus.entities.*;
 import com.connect.campus.services.AdminServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,13 +16,18 @@ public class AdminControllers {
     AdminServices adminServices;
 
     @PostMapping("/add_admin")
-    public void adding_admin(@RequestBody AdminEntity admin){
+    public void add_admin(@RequestBody AdminEntity admin){
         adminServices.addAdmin(admin);
     }
 
     @GetMapping("/admin_login")
-    public void check_admin_login(@RequestParam String adminId, @RequestParam String password){
-        adminServices.adminLogin(adminId, password);
+    public ResponseEntity<String> adminLogin(@RequestParam String adminId, @RequestParam String password){
+        boolean login;
+        login=adminServices.adminLogin(adminId, password);
+        if(login)
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Login SuccessFull.");
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Login Denied!");
     }
     @PostMapping("/add_batch")
     public void addBatch(@RequestBody BatchEntity batch){

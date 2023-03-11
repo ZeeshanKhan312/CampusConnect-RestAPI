@@ -32,13 +32,13 @@ public class AdminServices {
     NotificationRepository notificationRepository;
 
     //This method is checking whether admin exists or not/ whether password is correct or not
-    public void adminLogin(String adminId, String password){
+    public boolean adminLogin(String adminId, String password){
         AdminEntity admin= null;
         admin=adminRepository.findByAdminIdAndPassword(adminId, password);
         if(admin!=null)
-            System.out.println("Successful login!!!");
+            return true;
         else
-            System.out.println("Admin not found!!!!!");
+            return false;
     }
 
     public void addAdmin(AdminEntity admin){
