@@ -4,8 +4,6 @@ import com.connect.campus.dao.*;
 import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +30,23 @@ public class AdminServices {
     NotificationRepository notificationRepository;
 
     //This method is checking whether admin exists or not/ whether password is correct or not
-    public boolean adminLogin(String adminId, String password){
+    public AdminEntity adminLogin(String adminId, String password){
         AdminEntity admin= null;
         admin=adminRepository.findByAdminIdAndPassword(adminId, password);
-        if(admin!=null)
+        return admin;
+    }
+
+    public boolean changePassword(String adminId, String oldPassword, String newPassword) {
+        AdminEntity admin=null;
+        admin=adminRepository.findByAdminIdAndPassword(adminId,oldPassword);
+        if(admin!=null){
+            admin.setPassword(newPassword);
+            adminRepository.save(admin);
             return true;
+        }
         else
             return false;
+
     }
 
     public void addAdmin(AdminEntity admin){
@@ -47,7 +55,12 @@ public class AdminServices {
 
     public void addBatch(BatchEntity batch){
         batch.setBatchId(batch.getCourseName()+batch.getCourseYear());
+        batch.setCurrentSemester("1st Sem");
         batchRepository.save(batch);
+    }
+
+    public void deleteBatch(String batchId){
+        batchRepository.deleteById(batchId);
     }
 
     public List<BatchEntity> getBatches(){
@@ -112,7 +125,6 @@ public class AdminServices {
             student.setFeesPaid(false);
             student.setTransactionId(null);
         }
-        //need to check whether batch.students need to clear first or is it being handled by the setter method
         batch.setStudents(students);
         batchRepository.save(batch);
     }
@@ -159,10 +171,10 @@ public class AdminServices {
         notificationRepository.save(notification);
     }
 
-    public NotificationEntity searchNotification(String title){
-        NotificationEntity notification;
-        notification= notificationRepository.findByNotificationTitle(title);
-        return notification;
+    public List<NotificationEntity> searchNotification(String title){
+        List<NotificationEntity> notifications=new ArrayList<>();
+        notifications=notificationRepository.findByNotificationTitle(title);
+        return notifications;
     }
 
     public List<NotificationEntity> showAllNotifications(){

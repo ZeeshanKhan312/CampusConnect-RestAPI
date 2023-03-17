@@ -26,7 +26,7 @@ public class StudentEntity {
     String studentEmail;
 
     @NonNull
-    String parentsEmail;
+    String parentEmail;
 
     @NonNull
     Boolean feesPaid;

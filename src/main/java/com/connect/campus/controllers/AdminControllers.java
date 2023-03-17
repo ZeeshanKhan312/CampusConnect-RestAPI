@@ -21,17 +21,26 @@ public class AdminControllers {
     }
 
     @GetMapping("/admin_login")
-    public ResponseEntity<String> adminLogin(@RequestParam String adminId, @RequestParam String password){
-        boolean login;
-        login=adminServices.adminLogin(adminId, password);
-        if(login)
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Login SuccessFull.");
+    public AdminEntity adminLogin(@RequestParam String adminId, @RequestParam String password){
+        return adminServices.adminLogin(adminId, password);
+    }
+    @PutMapping("/admin_password")
+    public String changePassword(@RequestParam String adminId,@RequestParam String oldPassword,@RequestParam String newPassword){
+        boolean success;
+        success=adminServices.changePassword(adminId, oldPassword, newPassword);
+        if(success)
+            return "success";
         else
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Login Denied!");
+            return null;
     }
     @PostMapping("/add_batch")
     public void addBatch(@RequestBody BatchEntity batch){
         adminServices.addBatch(batch);
+    }
+
+    @DeleteMapping("/delete_batch")
+    public void deleteBatch(@RequestParam String batchId){
+        adminServices.deleteBatch(batchId);
     }
 
     @GetMapping("/get_batches")
@@ -125,7 +134,7 @@ public class AdminControllers {
     }
 
     @GetMapping("/search_notification")
-    public NotificationEntity searchNotification(@RequestParam String title){
+    public List<NotificationEntity> searchNotification(@RequestParam String title){
         return adminServices.searchNotification(title);
     }
 

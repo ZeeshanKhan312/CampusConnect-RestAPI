@@ -24,7 +24,7 @@ public class BatchEntity {
   String courseDuration;
   @NonNull
   String feesAmount;
-  @NonNull
+
   String currentSemester;
 
   @OneToMany(cascade = CascadeType.ALL)
