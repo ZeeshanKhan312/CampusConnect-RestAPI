@@ -150,7 +150,7 @@ public class AdminServices {
 
     public void updateTeacherSchedule(int teacherId,TeacherScheduleEntity teacherSchedule){
         String day=teacherSchedule.getDay();
-        TeacherScheduleEntity teacherSchedule1=teacherScheduleRepository.findByBatchIdAndDay(teacherId,day);
+        TeacherScheduleEntity teacherSchedule1=teacherScheduleRepository.findByTeacherIdAndDay(teacherId,day);
         teacherSchedule.setScheduleId(teacherSchedule1.getScheduleId());
         teacherScheduleRepository.save(teacherSchedule);
     }

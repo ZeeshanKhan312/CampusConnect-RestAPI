@@ -1,6 +1,8 @@
 package com.connect.campus.controllers;
 
+import com.connect.campus.entities.AvailableSlot;
 import com.connect.campus.entities.TeacherEntity;
+import com.connect.campus.entities.TeacherScheduleEntity;
 import com.connect.campus.services.TeacherServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class TeacherController {
 //    LOGIN
@@ -17,6 +21,7 @@ public class TeacherController {
 //    VIEW TEACHER SCHEDULE
 //    AVAILABILITY OF SLOTS
 //    SEND MAIL FOR EXTRA CLASS
+//    SEND NOTICE FOR EXTRA CLASS
 //    MARK ATTENDANCE
 //    UPLOAD MARKS
 //    VIEW ATTENDANCE AND PERCENTAGE
@@ -39,5 +44,15 @@ public class TeacherController {
         }
         else
             return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/teacher_schedule")
+    public List<TeacherScheduleEntity> getTeacherSchedule(int teacherId){
+        return teacherServices.getTeacherSchedule(teacherId);
+    }
+
+    @GetMapping("/empty_slot")
+    public List<AvailableSlot> emptySlot(@RequestParam int teacherId, @RequestParam String batchId, @RequestParam String day){
+        return teacherServices.checkEmptySlot(teacherId, batchId, day);
     }
 }
