@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.List;
+
 @Entity
 @Table(name = "student_table")
 @Data
 @DynamicUpdate
 public class StudentEntity {
     @Id
-    @Column(name ="studentID")
+    @Column(name ="student_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "student_id_generator")
     @SequenceGenerator(name = "student_id_generator",initialValue = 2000,allocationSize = 1,sequenceName = "student_table_sequence")
     int studentId;
@@ -32,6 +34,10 @@ public class StudentEntity {
     Boolean feesPaid;
 
     String transactionId;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id",referencedColumnName = "student_id")
+    List<AttendanceEntity> attendances;
 
     public StudentEntity() {
         feesPaid = true;

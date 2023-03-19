@@ -1,12 +1,10 @@
 package com.connect.campus.services;
 
 import com.connect.campus.dao.ScheduleRepository;
+import com.connect.campus.dao.StudentRepository;
 import com.connect.campus.dao.TeacherRepository;
 import com.connect.campus.dao.TeacherScheduleRepository;
-import com.connect.campus.entities.AvailableSlot;
-import com.connect.campus.entities.ScheduleEntity;
-import com.connect.campus.entities.TeacherEntity;
-import com.connect.campus.entities.TeacherScheduleEntity;
+import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +19,8 @@ public class TeacherServices {
     TeacherScheduleRepository teacherScheduleRepository;
     @Autowired
     ScheduleRepository batchScheduleRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
     public TeacherEntity teacherLogin(int teacherId, String password) {
         TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,password);
@@ -74,6 +74,7 @@ public class TeacherServices {
             slot.setBatchId(batchId);
             slot.setDay(day);
             availableSlots.add(slot);
+            System.out.println(availableSlots);
         }
         if(teacherSchedule.getSlot4()==null && batchSchedules.getSlot4()==null){
             AvailableSlot slot=new AvailableSlot();
@@ -82,6 +83,7 @@ public class TeacherServices {
             slot.setBatchId(batchId);
             slot.setDay(day);
             availableSlots.add(slot);
+            System.out.println(availableSlots);
         }
         if(teacherSchedule.getSlot5()==null && batchSchedules.getSlot5()==null){
             AvailableSlot slot=new AvailableSlot();
@@ -95,5 +97,11 @@ public class TeacherServices {
             return null;
 
         return availableSlots;
+    }
+
+    public List<StudentEntity> batchStudents(String batchId) {
+        List<StudentEntity> students=new ArrayList<>();
+        students.addAll(studentRepository.findByBatchId(batchId));
+        return students;
     }
 }

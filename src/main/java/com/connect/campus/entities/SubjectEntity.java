@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.List;
+
 @Table(name = "subject_table")
 @Data
 @NoArgsConstructor
@@ -20,6 +22,10 @@ public class SubjectEntity {
 
     @NonNull
     String subjectName;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id",referencedColumnName = "subject_id")
+    List<AttendanceEntity> attendances;
 
 }
 

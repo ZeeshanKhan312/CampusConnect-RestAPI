@@ -1,6 +1,7 @@
 package com.connect.campus.controllers;
 
 import com.connect.campus.entities.AvailableSlot;
+import com.connect.campus.entities.StudentEntity;
 import com.connect.campus.entities.TeacherEntity;
 import com.connect.campus.entities.TeacherScheduleEntity;
 import com.connect.campus.services.TeacherServices;
@@ -54,5 +55,10 @@ public class TeacherController {
     @GetMapping("/empty_slot")
     public List<AvailableSlot> emptySlot(@RequestParam int teacherId, @RequestParam String batchId, @RequestParam String day){
         return teacherServices.checkEmptySlot(teacherId, batchId, day);
+    }
+
+    @GetMapping("/batch_students")
+    public List<StudentEntity> batchStudents(@RequestParam String batchId){
+        return teacherServices.batchStudents(batchId);
     }
 }
