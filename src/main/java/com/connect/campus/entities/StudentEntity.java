@@ -38,6 +38,10 @@ public class StudentEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id",referencedColumnName = "student_id")
     List<AttendanceEntity> attendances;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "student_id",referencedColumnName = "student_id")
+    List<StudentProgressEntity> studentProgress;
+
 
     public StudentEntity() {
         feesPaid = true;

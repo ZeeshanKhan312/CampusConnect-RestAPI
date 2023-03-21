@@ -19,13 +19,14 @@ public class SubjectEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subject_id_generator")
     @SequenceGenerator(name = "subject_id_generator",initialValue =500,allocationSize = 10,sequenceName = "subject_table_sequence")
     int subjectId;
-
     @NonNull
     String subjectName;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id",referencedColumnName = "subject_id")
     List<AttendanceEntity> attendances;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id",referencedColumnName = "subject_id")
+    List<StudentProgressEntity> studentProgress;
 
 }
 

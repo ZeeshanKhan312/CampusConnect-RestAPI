@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface StudentRepository extends JpaRepository<StudentEntity, Integer> {
-    public StudentEntity findByStudentId(int studentId);
+    @Query(value = "SELECT * FROM student_table WHERE student_id =:id", nativeQuery = true)
+    public StudentEntity findByStudentId(@Param("id") int studentId);
     @Query(value = "SELECT * FROM student_table WHERE student_name =:name", nativeQuery = true)
     public List<StudentEntity> findByStudentName(@Param("name") String name);
     @Query(value="SELECT * FROM student_table WHERE batch_id =:bId", nativeQuery = true)

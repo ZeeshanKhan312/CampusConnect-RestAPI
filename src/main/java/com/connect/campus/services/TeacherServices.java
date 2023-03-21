@@ -1,9 +1,6 @@
 package com.connect.campus.services;
 
-import com.connect.campus.dao.ScheduleRepository;
-import com.connect.campus.dao.StudentRepository;
-import com.connect.campus.dao.TeacherRepository;
-import com.connect.campus.dao.TeacherScheduleRepository;
+import com.connect.campus.dao.*;
 import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +18,10 @@ public class TeacherServices {
     ScheduleRepository batchScheduleRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    SubjectRepository subjectRepository;
+    @Autowired
+    AttendanceRepository attendanceRepository;
 
     public TeacherEntity teacherLogin(int teacherId, String password) {
         TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,password);
@@ -103,5 +104,21 @@ public class TeacherServices {
         List<StudentEntity> students=new ArrayList<>();
         students.addAll(studentRepository.findByBatchId(batchId));
         return students;
+    }
+
+
+    public void markAttendance(AttendanceEntity studentsAttendance, int studentId, int subjectId) {
+        StudentEntity student= studentRepository.findByStudentId(studentId);
+        List<AttendanceEntity> attendances=student.getAttendances();
+        studentsAttendance.setAttendanceId(subjectId+studentId+studentsAttendance.getDate());
+        attendances.add(studentsAttendance);
+        student.setAttendances(attendances);
+        studentRepository.save(student);
+
+        SubjectEntity subject= subjectRepository.findBySubjectId(subjectId);
+        List<AttendanceEntity> subjectAttendance=subject.getAttendances();
+        subjectAttendance.add(studentsAttendance);
+        subject.setAttendances(subjectAttendance);
+        subjectRepository.save(subject);
     }
 }

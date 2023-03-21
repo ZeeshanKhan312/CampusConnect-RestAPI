@@ -12,15 +12,15 @@ import java.util.List;
 @DynamicUpdate
 @Table(name = "Attendance_table")
 @Data
-@NoArgsConstructor
 public class AttendanceEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attendance_id_generator")
-    @SequenceGenerator(name = "attendance_id_generator",initialValue =100,allocationSize = 1,sequenceName = "attendance_table_sequence")
-    int attendanceId;
+    String attendanceId;
     @NonNull
     String date;
     @NonNull
     String present;
 
+    public AttendanceEntity() {
+        attendanceId=null;
+    }
 }

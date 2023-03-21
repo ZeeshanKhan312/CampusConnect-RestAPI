@@ -1,17 +1,11 @@
 package com.connect.campus.controllers;
 
-import com.connect.campus.entities.AvailableSlot;
-import com.connect.campus.entities.StudentEntity;
-import com.connect.campus.entities.TeacherEntity;
-import com.connect.campus.entities.TeacherScheduleEntity;
+import com.connect.campus.entities.*;
 import com.connect.campus.services.TeacherServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -61,4 +55,10 @@ public class TeacherController {
     public List<StudentEntity> batchStudents(@RequestParam String batchId){
         return teacherServices.batchStudents(batchId);
     }
+
+    @PostMapping("/mark_attendance")
+    public void markAttendance(@RequestBody AttendanceEntity studentsAttendance, @RequestParam int studentId, @RequestParam int subjectId){
+        teacherServices.markAttendance(studentsAttendance, studentId, subjectId);
+    }
+
 }
