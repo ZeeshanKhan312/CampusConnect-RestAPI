@@ -7,12 +7,13 @@ import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
-@Table(name="NotificationTable")
+@Table(name="notificationTable")
 @Data
 @DynamicUpdate
 @NoArgsConstructor
 public class NotificationEntity {
     @Id
+    @Column(name = "notification_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notification_id_generator")
     @SequenceGenerator(name = "notification_id_generator", initialValue = 1, allocationSize = 1,sequenceName = "notification_table_sequence")
     int notificationId;
@@ -20,5 +21,8 @@ public class NotificationEntity {
     String notificationTitle;
     @NonNull
     String notificationMessage;
+    @NonNull
+    String from;
+
 
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<NotificationEntity, String> {
+public interface NotificationRepository extends JpaRepository<NotificationEntity, Integer> {
     public List<NotificationEntity> findByNotificationTitle(String title);
 }

@@ -61,4 +61,19 @@ public class TeacherController {
         teacherServices.markAttendance(studentsAttendance, studentId, subjectId);
     }
 
+    @PostMapping("/send_notice")
+    public void sendNotice(@RequestBody NotificationEntity notice){
+        teacherServices.sendNotice(notice);
+    }
+
+    @GetMapping("/search_notice")
+    public List<NotificationEntity> searchNotice(@RequestParam String title ){
+        return teacherServices.searchNotice(title);
+    }
+
+    @GetMapping("/show_all_notices")
+    public List<NotificationEntity> allNotices(){
+        return teacherServices.allNotices();
+    }
+
 }
