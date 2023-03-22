@@ -23,6 +23,9 @@ public class TeacherServices {
     @Autowired
     AttendanceRepository attendanceRepository;
 
+    @Autowired
+    NotificationRepository notificationRepository;
+
     public TeacherEntity teacherLogin(int teacherId, String password) {
         TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,password);
         return  teacher;
@@ -120,5 +123,20 @@ public class TeacherServices {
         subjectAttendance.add(studentsAttendance);
         subject.setAttendances(subjectAttendance);
         subjectRepository.save(subject);
+    }
+
+    public void sendNotice(NotificationEntity notice){
+        notificationRepository.save(notice);
+    }
+
+
+    public List<NotificationEntity> searchNotice(String title) {
+        List<NotificationEntity>notices =notificationRepository.findByNotificationTitle(title);
+        return notices;
+    }
+
+    public List<NotificationEntity> allNotices(){
+        List<NotificationEntity> notices = notificationRepository.findAll();
+        return notices;
     }
 }
