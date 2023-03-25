@@ -10,20 +10,21 @@ import javax.persistence.Table;
 
 @Entity
 @DynamicUpdate
-@Table(name = "student_subject_table")
+@Table(name = "student_progress_table")
 @Data
 public class StudentProgressEntity {
     @Id
-    String Id;
+    String subjectId;  //studentId+subjectName
     @NonNull
     int totalAttendance;
     @NonNull
     int totalClasses;
+    float attendancePercentage;
     String marks;
     float percentage;
 
     public StudentProgressEntity(){
-        Id=null;
+        subjectId=null;
         totalAttendance=0;
         totalClasses=0;
     }

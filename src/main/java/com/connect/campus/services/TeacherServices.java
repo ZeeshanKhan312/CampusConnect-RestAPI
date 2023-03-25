@@ -26,6 +26,12 @@ public class TeacherServices {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    BatchRepository batchRepository;
+
+    @Autowired
+    StudentProgressRepository studentProgressRepository;
+
     public TeacherEntity teacherLogin(int teacherId, String password) {
         TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,password);
         return  teacher;
@@ -110,20 +116,7 @@ public class TeacherServices {
     }
 
 
-    public void markAttendance(AttendanceEntity studentsAttendance, int studentId, int subjectId) {
-        StudentEntity student= studentRepository.findByStudentId(studentId);
-        List<AttendanceEntity> attendances=student.getAttendances();
-        studentsAttendance.setAttendanceId(subjectId+studentId+studentsAttendance.getDate());
-        attendances.add(studentsAttendance);
-        student.setAttendances(attendances);
-        studentRepository.save(student);
 
-        SubjectEntity subject= subjectRepository.findBySubjectId(subjectId);
-        List<AttendanceEntity> subjectAttendance=subject.getAttendances();
-        subjectAttendance.add(studentsAttendance);
-        subject.setAttendances(subjectAttendance);
-        subjectRepository.save(subject);
-    }
 
     public void sendNotice(NotificationEntity notice){
         notificationRepository.save(notice);
@@ -139,4 +132,66 @@ public class TeacherServices {
         List<NotificationEntity> notices = notificationRepository.findAll();
         return notices;
     }
+
+    public void sendExtraClassEmail(String slot, String batchId, String teacherName){
+        BatchEntity batch= batchRepository.findByBatchId(batchId);
+        List<StudentEntity>students=batch.getStudents();
+
+        List<String> studentsEmail= new ArrayList<>();
+        for(StudentEntity student: students){
+            studentsEmail.add(student.getStudentEmail());
+        }
+        System.out.println(studentsEmail);
+
+        NotificationEntity notice= new NotificationEntity();
+        notice.setNotificationTitle("Extra Class Notice");
+        notice.setNotificationMessage("This is to notify the students of "+ batchId + "that they have an extra class on " +slot);
+        notice.setAuthor(teacherName);
+
+        sendNotice(notice);
+
+
+    }
+
+    public void markAttendance(int subjectId, List<StudentEntity> students, List<AttendanceEntity> attendances) {
+        List<String> parentEmails= new ArrayList<>();
+        for(int i=0; i<students.size(); i++){
+            StudentEntity student =students.get(i);
+            AttendanceEntity attendance= attendances.get(i);
+            attendance.setAttendanceId(student.getStudentId()+subjectId+attendance.getDate());
+
+            //adding attendance records in student table
+            List<AttendanceEntity> studentAttendances=student.getAttendances();
+            studentAttendances.add(attendance);
+            studentRepository.save(student);
+
+            //adding attendance record in subject table
+            SubjectEntity subject= subjectRepository.findBySubjectId(subjectId);
+            List<AttendanceEntity> subjectAttendance= subject.getAttendances();
+            subjectAttendance.add(attendance);
+            subjectRepository.save(subject);
+
+            //storing parents' email of those who have not attended the class
+            if(attendance.getPresent()=="false"){
+                parentEmails.add(student.getParentEmail());
+            }
+
+            //updating student progress (student progress=subject-student relation)
+            String id= student.getStudentId() + subject.getSubjectName();
+            StudentProgressEntity studentProgress= studentProgressRepository.findBySubjectId(id);
+            int totalAttendance=0;
+            int totalClasses=0;
+            float attendancePercentage;
+            if(attendance.getPresent()=="true"){
+                totalAttendance=studentProgress.getTotalAttendance()+1;
+                studentProgress.setTotalAttendance(totalAttendance);
+            }
+            totalClasses=studentProgress.getTotalClasses()+1;
+            studentProgress.setTotalClasses(totalClasses);
+            attendancePercentage=(totalAttendance/totalClasses)*100;
+            studentProgress.setAttendancePercentage(attendancePercentage);
+            studentRepository.save(student);
+        }
+    }
+
 }
