@@ -56,11 +56,6 @@ public class TeacherController {
         return teacherServices.batchStudents(batchId);
     }
 
-    @PostMapping("/mark_attendance")
-    public void markAttendance(@RequestBody AttendanceEntity studentsAttendance, @RequestParam int studentId, @RequestParam int subjectId){
-        teacherServices.markAttendance(studentsAttendance, studentId, subjectId);
-    }
-
     @PostMapping("/send_notice")
     public void sendNotice(@RequestBody NotificationEntity notice){
         teacherServices.sendNotice(notice);
@@ -75,5 +70,16 @@ public class TeacherController {
     public List<NotificationEntity> allNotices(){
         return teacherServices.allNotices();
     }
+
+    @PostMapping("/send_extra_class_email")
+    public void sendExtraClassEmail(@RequestParam String slot, @RequestParam String batchId, @RequestParam  String teacherName){
+        teacherServices.sendExtraClassEmail(slot, batchId, teacherName);
+    }
+
+    @PostMapping("/mark_attendance")
+    public void markAttendance(@RequestParam int subjectId, @RequestBody List<StudentEntity> students, @RequestBody List<AttendanceEntity> attendances){
+        teacherServices.markAttendance(subjectId, students, attendances);
+    }
+
 
 }

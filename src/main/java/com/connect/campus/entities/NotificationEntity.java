@@ -22,7 +22,5 @@ public class NotificationEntity {
     @NonNull
     String notificationMessage;
     @NonNull
-    String from;
-
-
+    String author;
 }

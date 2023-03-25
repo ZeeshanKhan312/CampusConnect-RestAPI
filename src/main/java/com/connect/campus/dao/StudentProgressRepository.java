@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentProgressRepository extends JpaRepository<StudentProgressEntity, String > {
-
+    public StudentProgressEntity findBySubjectId(String id);
 }
