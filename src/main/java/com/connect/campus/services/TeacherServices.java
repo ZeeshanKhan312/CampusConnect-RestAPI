@@ -38,8 +38,7 @@ public class TeacherServices {
     }
 
     public void passwordChange(int teacherId, String oldPassword, String newPassword){
-        TeacherEntity teacher=null;
-        teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,oldPassword);
+        TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,oldPassword);
         if(teacher!=null){
             teacher.setTeacherPassword(newPassword);
             teacherRepository.save(teacher);
@@ -59,7 +58,7 @@ public class TeacherServices {
         return students;
     }
 
-    public void markAttendance(int subjectId, List<MarkAttendance> attendances) {
+    public void markAttendance(int subjectId, String batchId, List<MarkAttendance> attendances) {
         List<String> parentEmails= new ArrayList<>();
         for(int i=0; i<attendances.size(); i++){
             StudentEntity student =studentRepository.findByStudentId(attendances.get(i).getStudentId());
@@ -92,10 +91,12 @@ public class TeacherServices {
             if(studentProgress==null){
                 studentProgress=new StudentProgressEntity();
                 studentProgress.setProgressId(student.getStudentId() + subject.getSubjectName());
+                studentProgress.setBatchId(batchId);
             }
             else {
                 totalAttendance=studentProgress.getTotalAttendance();
                 totalClasses=studentProgress.getTotalClasses();
+                studentProgress.setBatchId(batchId);
             }
             if(attendance.getPresent().equals("true")){
                 totalAttendance++;
@@ -116,6 +117,16 @@ public class TeacherServices {
             subject.setStudentProgress(subjectProgress);
             subjectRepository.save(subject);
         }
+    }
+
+    public List<AttendanceEntity> detailedAttendance(String studentId, String subjectId) {
+        List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId,subjectId);
+        return  attendanceList;
+    }
+
+    public List<StudentProgressEntity> viewBatchAttendance(String batchId, String subjectId) {
+        List<StudentProgressEntity> batchProgress=studentProgressRepository.findByBatchIdAndSubjectId(batchId,subjectId);
+        return  batchProgress;
     }
 
     public void uploadMarks(List<StudentProgressEntity> studentsProgress) {
@@ -213,4 +224,5 @@ public class TeacherServices {
         List<NotificationEntity> notices = notificationRepository.findAll();
         return notices;
     }
+
 }

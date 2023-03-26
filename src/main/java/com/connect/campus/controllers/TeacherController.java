@@ -47,8 +47,18 @@ public class TeacherController {
     }
 
     @PostMapping("/mark_attendance")
-    public void markAttendance(@RequestParam int subjectId, @RequestBody List<MarkAttendance> attendances){
-        teacherServices.markAttendance(subjectId, attendances);
+    public void markAttendance(@RequestParam int subjectId, @RequestParam String batchId, @RequestBody List<MarkAttendance> attendances){
+        teacherServices.markAttendance(subjectId, batchId, attendances);
+    }
+
+    @GetMapping("/detailed_attendance")
+    public List<AttendanceEntity> detailedAttendance(@RequestParam String studentId, @RequestParam  String subjectId){
+        return teacherServices.detailedAttendance(studentId,subjectId);
+    }
+
+    @GetMapping("view_batch_attendance")
+    public List<StudentProgressEntity> viewBatchAttendance(@RequestParam String batchId,@RequestParam String subjectId){
+        return teacherServices.viewBatchAttendance(batchId, subjectId);
     }
 
     @PostMapping("/upload_marks")
@@ -80,6 +90,5 @@ public class TeacherController {
     public List<NotificationEntity> allNotices(){
         return teacherServices.allNotices();
     }
-
 
 }
