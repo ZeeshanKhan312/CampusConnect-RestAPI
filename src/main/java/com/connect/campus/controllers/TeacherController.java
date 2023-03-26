@@ -15,12 +15,13 @@ public class TeacherController {
 //    PASSWORD CHANGE
 //    VIEW TEACHER SCHEDULE
 //    AVAILABILITY OF SLOTS
-//    SEND MAIL FOR EXTRA CLASS
-//    SEND NOTICE FOR EXTRA CLASS
 //    MARK ATTENDANCE
 //    UPLOAD MARKS
-//    VIEW ATTENDANCE AND PERCENTAGE
-//    VIEW DETAILED ATTENDANCE
+//    (check whether f.k can be used to fetch data)
+//    SEND MAIL FOR EXTRA CLASS
+//    SEND NOTICE FOR EXTRA CLASS
+//    VIEW ATTENDANCE AND PERCENTAGE (not done)
+//    VIEW DETAILED ATTENDANCE (not done)
 
     @Autowired
     TeacherServices teacherServices;
@@ -31,14 +32,8 @@ public class TeacherController {
     }
 
     @PutMapping("/change_teacher_password")
-    public ResponseEntity<String> changePassword(@RequestParam int teacherId, @RequestParam String oldPassword, @RequestParam String newPassword){
-        boolean success;
-        success=teacherServices.passwordChange(teacherId, oldPassword, newPassword);
-        if(success){
-             return ResponseEntity.accepted().build();
-        }
-        else
-            return ResponseEntity.notFound().build();
+    public  void changePassword(@RequestParam int teacherId, @RequestParam String oldPassword, @RequestParam String newPassword){
+        teacherServices.passwordChange(teacherId, oldPassword, newPassword);
     }
 
     @GetMapping("/teacher_schedule")
@@ -46,14 +41,29 @@ public class TeacherController {
         return teacherServices.getTeacherSchedule(teacherId);
     }
 
+    @GetMapping("/batch_students")
+    public List<StudentEntity> batchStudents(@RequestParam String batchId){
+        return teacherServices.batchStudents(batchId);
+    }
+
+    @PostMapping("/mark_attendance")
+    public void markAttendance(@RequestParam int subjectId, @RequestBody List<MarkAttendance> attendances){
+        teacherServices.markAttendance(subjectId, attendances);
+    }
+
+    @PostMapping("/upload_marks")
+    public void uploadMarks(@RequestBody List<StudentProgressEntity> studentsProgress){
+        teacherServices.uploadMarks(studentsProgress);
+    }
+
     @GetMapping("/empty_slot")
     public List<AvailableSlot> emptySlot(@RequestParam int teacherId, @RequestParam String batchId, @RequestParam String day){
         return teacherServices.checkEmptySlot(teacherId, batchId, day);
     }
 
-    @GetMapping("/batch_students")
-    public List<StudentEntity> batchStudents(@RequestParam String batchId){
-        return teacherServices.batchStudents(batchId);
+    @PostMapping("/book_extra_class")
+    public void bookExtraClass(@RequestBody AvailableSlot bookSlot){
+        teacherServices.bookExtraClass(bookSlot);
     }
 
     @PostMapping("/send_notice")
@@ -69,16 +79,6 @@ public class TeacherController {
     @GetMapping("/show_all_notices")
     public List<NotificationEntity> allNotices(){
         return teacherServices.allNotices();
-    }
-
-    @PostMapping("/send_extra_class_email")
-    public void sendExtraClassEmail(@RequestParam String slot, @RequestParam String batchId, @RequestParam  String teacherName){
-        teacherServices.sendExtraClassEmail(slot, batchId, teacherName);
-    }
-
-    @PostMapping("/mark_attendance")
-    public void markAttendance(@RequestParam int subjectId, @RequestBody List<StudentEntity> students, @RequestBody List<AttendanceEntity> attendances){
-        teacherServices.markAttendance(subjectId, students, attendances);
     }
 
 

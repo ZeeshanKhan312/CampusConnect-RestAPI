@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Data
 public class StudentProgressEntity {
     @Id
-    String subjectId;  //studentId+subjectName
+    String progressId;  //studentId+subjectName
     @NonNull
     int totalAttendance;
     @NonNull
@@ -24,7 +24,7 @@ public class StudentProgressEntity {
     float percentage;
 
     public StudentProgressEntity(){
-        subjectId=null;
+        progressId=null;
         totalAttendance=0;
         totalClasses=0;
     }

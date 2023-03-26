@@ -37,16 +37,13 @@ public class TeacherServices {
         return  teacher;
     }
 
-    public Boolean passwordChange(int teacherId, String oldPassword, String newPassword){
+    public void passwordChange(int teacherId, String oldPassword, String newPassword){
         TeacherEntity teacher=null;
         teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,oldPassword);
         if(teacher!=null){
             teacher.setTeacherPassword(newPassword);
             teacherRepository.save(teacher);
-            return true;
         }
-        else
-            return false;
     }
 
     public List<TeacherScheduleEntity> getTeacherSchedule(int teacherId) {
@@ -54,6 +51,79 @@ public class TeacherServices {
         schedules.addAll(teacherScheduleRepository.findByTeacherId(teacherId));
         return schedules;
 
+    }
+
+    public List<StudentEntity> batchStudents(String batchId) {
+        List<StudentEntity> students=new ArrayList<>();
+        students.addAll(studentRepository.findByBatchId(batchId));
+        return students;
+    }
+
+    public void markAttendance(int subjectId, List<MarkAttendance> attendances) {
+        List<String> parentEmails= new ArrayList<>();
+        for(int i=0; i<attendances.size(); i++){
+            StudentEntity student =studentRepository.findByStudentId(attendances.get(i).getStudentId());
+            AttendanceEntity attendance= attendances.get(i).getAttendance();
+            attendance.setAttendanceId(student.getStudentId()+subjectId+attendance.getDate());
+
+            //adding attendance records in student table
+            List<AttendanceEntity> studentAttendances=student.getAttendances();
+            studentAttendances.add(attendance);
+            studentRepository.save(student);
+
+            //adding attendance record in subject table
+            SubjectEntity subject= subjectRepository.findBySubjectId(subjectId);
+            List<AttendanceEntity> subjectAttendance= subject.getAttendances();
+            subjectAttendance.add(attendance);
+            subjectRepository.save(subject);
+
+            //storing parents' email of those who have not attended the class
+            if(attendance.getPresent()=="false"){
+                parentEmails.add(student.getParentEmail());
+            }
+
+
+            //updating student progress (student progress=subject-student relation)
+            String id= student.getStudentId() + subject.getSubjectName();
+            StudentProgressEntity studentProgress= studentProgressRepository.findByProgressId(id);
+            int totalAttendance=0;
+            int totalClasses=0;
+            float attendancePercentage;
+            if(studentProgress==null){
+                studentProgress=new StudentProgressEntity();
+                studentProgress.setProgressId(student.getStudentId() + subject.getSubjectName());
+            }
+            else {
+                totalAttendance=studentProgress.getTotalAttendance();
+                totalClasses=studentProgress.getTotalClasses();
+            }
+            if(attendance.getPresent().equals("true")){
+                totalAttendance++;
+                studentProgress.setTotalAttendance(totalAttendance);
+            }
+            totalClasses++;
+            studentProgress.setTotalClasses(totalClasses );
+            attendancePercentage=((float)totalAttendance/totalClasses)*100;
+            studentProgress.setAttendancePercentage(attendancePercentage);
+
+            List<StudentProgressEntity>studentProgressList=student.getStudentProgress();
+            studentProgressList.add(studentProgress);
+            student.setStudentProgress(studentProgressList);
+            studentRepository.save(student);
+
+            List<StudentProgressEntity> subjectProgress=subject.getStudentProgress();
+            subjectProgress.add(studentProgress);
+            subject.setStudentProgress(subjectProgress);
+            subjectRepository.save(subject);
+        }
+    }
+
+    public void uploadMarks(List<StudentProgressEntity> studentsProgress) {
+        for(int i=0;i<studentsProgress.size();i++) {
+            StudentProgressEntity studentProgress=studentProgressRepository.findByProgressId(studentsProgress.get(i).getProgressId());
+            studentProgress.setMarks(studentsProgress.get(i).getMarks());
+            studentProgressRepository.save(studentProgress);
+        }
     }
 
     public List<AvailableSlot> checkEmptySlot(int teacherId, String batchId, String day) {
@@ -69,7 +139,7 @@ public class TeacherServices {
             slot.setDay(day);
             availableSlots.add(slot);
         }
-       if(teacherSchedule.getSlot2()==null && batchSchedules.getSlot2()==null){
+        if(teacherSchedule.getSlot2()==null && batchSchedules.getSlot2()==null){
             AvailableSlot slot=new AvailableSlot();
             slot.setSlot("Slot 2 is available");
             slot.setTeacherId(teacherId);
@@ -103,25 +173,36 @@ public class TeacherServices {
             slot.setDay(day);
             availableSlots.add(slot);
         }
-        else
-            return null;
 
         return availableSlots;
     }
 
-    public List<StudentEntity> batchStudents(String batchId) {
-        List<StudentEntity> students=new ArrayList<>();
-        students.addAll(studentRepository.findByBatchId(batchId));
-        return students;
+    public void bookExtraClass(AvailableSlot bookSlot){
+        BatchEntity batch= batchRepository.findByBatchId(bookSlot.getBatchId());
+        TeacherEntity teacher=teacherRepository.findByTeacherId(bookSlot.getTeacherId());
+        List<StudentEntity>students=batch.getStudents();
+
+        List<String> studentsEmail= new ArrayList<>();
+        for(StudentEntity student: students){
+            studentsEmail.add(student.getStudentEmail());
+        }
+        System.out.println(studentsEmail);
+
+        //SENDING NOTICE TO NOTICE_TABLE
+        NotificationEntity notice= new NotificationEntity();
+        notice.setNotificationTitle("Extra Class Notice");
+        notice.setNotificationMessage("This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on "+bookSlot.getDay()+" at " +bookSlot.getSlot());
+        notice.setAuthor(teacher.getTeacherName());
+
+        sendNotice(notice);
+
+        //SENDING EMAIL'S TASK
+
     }
-
-
-
 
     public void sendNotice(NotificationEntity notice){
         notificationRepository.save(notice);
     }
-
 
     public List<NotificationEntity> searchNotice(String title) {
         List<NotificationEntity>notices =notificationRepository.findByNotificationTitle(title);
@@ -132,66 +213,4 @@ public class TeacherServices {
         List<NotificationEntity> notices = notificationRepository.findAll();
         return notices;
     }
-
-    public void sendExtraClassEmail(String slot, String batchId, String teacherName){
-        BatchEntity batch= batchRepository.findByBatchId(batchId);
-        List<StudentEntity>students=batch.getStudents();
-
-        List<String> studentsEmail= new ArrayList<>();
-        for(StudentEntity student: students){
-            studentsEmail.add(student.getStudentEmail());
-        }
-        System.out.println(studentsEmail);
-
-        NotificationEntity notice= new NotificationEntity();
-        notice.setNotificationTitle("Extra Class Notice");
-        notice.setNotificationMessage("This is to notify the students of "+ batchId + "that they have an extra class on " +slot);
-        notice.setAuthor(teacherName);
-
-        sendNotice(notice);
-
-
-    }
-
-    public void markAttendance(int subjectId, List<StudentEntity> students, List<AttendanceEntity> attendances) {
-        List<String> parentEmails= new ArrayList<>();
-        for(int i=0; i<students.size(); i++){
-            StudentEntity student =students.get(i);
-            AttendanceEntity attendance= attendances.get(i);
-            attendance.setAttendanceId(student.getStudentId()+subjectId+attendance.getDate());
-
-            //adding attendance records in student table
-            List<AttendanceEntity> studentAttendances=student.getAttendances();
-            studentAttendances.add(attendance);
-            studentRepository.save(student);
-
-            //adding attendance record in subject table
-            SubjectEntity subject= subjectRepository.findBySubjectId(subjectId);
-            List<AttendanceEntity> subjectAttendance= subject.getAttendances();
-            subjectAttendance.add(attendance);
-            subjectRepository.save(subject);
-
-            //storing parents' email of those who have not attended the class
-            if(attendance.getPresent()=="false"){
-                parentEmails.add(student.getParentEmail());
-            }
-
-            //updating student progress (student progress=subject-student relation)
-            String id= student.getStudentId() + subject.getSubjectName();
-            StudentProgressEntity studentProgress= studentProgressRepository.findBySubjectId(id);
-            int totalAttendance=0;
-            int totalClasses=0;
-            float attendancePercentage;
-            if(attendance.getPresent()=="true"){
-                totalAttendance=studentProgress.getTotalAttendance()+1;
-                studentProgress.setTotalAttendance(totalAttendance);
-            }
-            totalClasses=studentProgress.getTotalClasses()+1;
-            studentProgress.setTotalClasses(totalClasses);
-            attendancePercentage=(totalAttendance/totalClasses)*100;
-            studentProgress.setAttendancePercentage(attendancePercentage);
-            studentRepository.save(student);
-        }
-    }
-
 }
