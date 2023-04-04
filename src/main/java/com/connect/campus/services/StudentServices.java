@@ -16,6 +16,7 @@ public class StudentServices {
     @Autowired
     StudentRepository studentRepository;
 
+    @Autowired
     NotificationRepository notificationRepository;
     public StudentEntity studentLogin(int id, String password) {
         StudentEntity student=studentRepository.findByStudentIdAndPassword(id, password);
@@ -35,7 +36,7 @@ public class StudentServices {
 
     public List<NotificationEntity> getNotification() {
         List<NotificationEntity> notifications= new ArrayList<>();
-        notifications=notificationRepository.findAll();
+        notifications.addAll(notificationRepository.findAll());
         return notifications;
     }
 

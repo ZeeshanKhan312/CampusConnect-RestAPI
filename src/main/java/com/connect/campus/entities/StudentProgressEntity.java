@@ -26,5 +26,6 @@ public class StudentProgressEntity {
         progressId=null;
         totalAttendance=0;
         totalClasses=0;
+        marks=0;
     }
 }

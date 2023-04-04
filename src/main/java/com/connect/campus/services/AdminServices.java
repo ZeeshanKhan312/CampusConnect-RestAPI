@@ -119,6 +119,8 @@ public class AdminServices {
             student.setFeesPaid(false);
             student.setTransactionId(null);
             student.getStudentProgress().clear(); //MORE WORK TO DO IN THIS
+//            List<StudentProgressEntity> studentProgress = new ArrayList<>();
+//            student.setStudentProgress(studentProgress);
         }
         batch.setStudents(students);
         batchRepository.save(batch);
