@@ -11,18 +11,6 @@ import java.util.List;
 
 @RestController
 public class TeacherController {
-//    LOGIN
-//    PASSWORD CHANGE
-//    VIEW TEACHER SCHEDULE
-//    AVAILABILITY OF SLOTS
-//    MARK ATTENDANCE
-//    UPLOAD MARKS
-//    (check whether f.k can be used to fetch data)
-//    SEND MAIL FOR EXTRA CLASS
-//    SEND NOTICE FOR EXTRA CLASS
-//    VIEW ATTENDANCE AND PERCENTAGE (not done)
-//    VIEW DETAILED ATTENDANCE (not done)
-
     @Autowired
     TeacherServices teacherServices;
 
@@ -90,5 +78,6 @@ public class TeacherController {
     public List<NotificationEntity> allNotices(){
         return teacherServices.allNotices();
     }
+
 
 }

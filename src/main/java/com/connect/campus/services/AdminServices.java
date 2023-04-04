@@ -31,22 +31,16 @@ public class AdminServices {
 
     //This method is checking whether admin exists or not/ whether password is correct or not
     public AdminEntity adminLogin(String adminId, String password){
-        AdminEntity admin= null;
-        admin=adminRepository.findByAdminIdAndPassword(adminId, password);
+        AdminEntity admin=adminRepository.findByAdminIdAndPassword(adminId, password);
         return admin;
     }
 
-    public boolean changePassword(String adminId, String oldPassword, String newPassword) {
-        AdminEntity admin=null;
-        admin=adminRepository.findByAdminIdAndPassword(adminId,oldPassword);
+    public void changePassword(String adminId, String oldPassword, String newPassword) {
+        AdminEntity admin=adminRepository.findByAdminIdAndPassword(adminId,oldPassword);
         if(admin!=null){
             admin.setPassword(newPassword);
             adminRepository.save(admin);
-            return true;
         }
-        else
-            return false;
-
     }
 
     public void addAdmin(AdminEntity admin){
@@ -124,6 +118,7 @@ public class AdminServices {
         for(StudentEntity student: students){
             student.setFeesPaid(false);
             student.setTransactionId(null);
+            student.getStudentProgress().clear(); //MORE WORK TO DO IN THIS
         }
         batch.setStudents(students);
         batchRepository.save(batch);

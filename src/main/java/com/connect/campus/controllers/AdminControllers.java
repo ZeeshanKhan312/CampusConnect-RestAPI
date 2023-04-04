@@ -25,13 +25,8 @@ public class AdminControllers {
         return adminServices.adminLogin(adminId, password);
     }
     @PutMapping("/admin_password")
-    public String changePassword(@RequestParam String adminId,@RequestParam String oldPassword,@RequestParam String newPassword){
-        boolean success;
-        success=adminServices.changePassword(adminId, oldPassword, newPassword);
-        if(success)
-            return "success";
-        else
-            return null;
+    public void changePassword(@RequestParam String adminId,@RequestParam String oldPassword,@RequestParam String newPassword){
+        adminServices.changePassword(adminId, oldPassword, newPassword);
     }
     @PostMapping("/add_batch")
     public void addBatch(@RequestBody BatchEntity batch){

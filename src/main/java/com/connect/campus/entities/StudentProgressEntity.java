@@ -4,10 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @DynamicUpdate
@@ -23,8 +20,7 @@ public class StudentProgressEntity {
     @NonNull
     int totalClasses;
     float attendancePercentage;
-    String marks;
-    float percentage;
+    int marks;
 
     public StudentProgressEntity(){
         progressId=null;
