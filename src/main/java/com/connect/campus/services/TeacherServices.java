@@ -3,6 +3,8 @@ package com.connect.campus.services;
 import com.connect.campus.dao.*;
 import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class TeacherServices {
 
     @Autowired
     StudentProgressRepository studentProgressRepository;
+
+    @Autowired
+    JavaMailSender mailSender;
 
     public TeacherEntity teacherLogin(int teacherId, String password) {
         TeacherEntity teacher=teacherRepository.findByTeacherIdAndTeacherPassword(teacherId,password);
@@ -76,6 +81,7 @@ public class TeacherServices {
             subjectAttendance.add(attendance);
             subjectRepository.save(subject);
 
+            //SENDING EMAIL TASK
             //storing parents' email of those who have not attended the class
             if(attendance.getPresent()=="false"){
                 parentEmails.add(student.getParentEmail());
@@ -117,6 +123,10 @@ public class TeacherServices {
             subject.setStudentProgress(subjectProgress);
             subjectRepository.save(subject);
         }
+    }
+
+    public void sendAbsentMail(){
+
     }
 
     public List<AttendanceEntity> detailedAttendance(String studentId, String subjectId) {
@@ -193,11 +203,15 @@ public class TeacherServices {
         TeacherEntity teacher=teacherRepository.findByTeacherId(bookSlot.getTeacherId());
         List<StudentEntity>students=batch.getStudents();
 
+        //SENDING EMAIL'S TASK
         List<String> studentsEmail= new ArrayList<>();
         for(StudentEntity student: students){
             studentsEmail.add(student.getStudentEmail());
         }
-        System.out.println(studentsEmail);
+        String emailSubject="Extra Class Mail";
+        String emailBody="This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on "+bookSlot.getDay()+" at " +bookSlot.getSlot() ;
+
+        sendExtraClassMail(studentsEmail,emailSubject,emailBody);
 
         //SENDING NOTICE TO NOTICE_TABLE
         NotificationEntity notice= new NotificationEntity();
@@ -207,8 +221,20 @@ public class TeacherServices {
 
         sendNotice(notice);
 
-        //SENDING EMAIL'S TASK
 
+    }
+
+    public void sendExtraClassMail(List<String> studentsEmail,String subject, String body) {
+        for(String email:studentsEmail){
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+            mailMessage.setFrom("zeeshankalimkhan@gmail.com");
+            mailMessage.setTo(email);
+            mailMessage.setSubject(subject);
+            mailMessage.setText(body);
+
+            mailSender.send(mailMessage);
+        }
     }
 
     public void sendNotice(NotificationEntity notice){
