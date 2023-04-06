@@ -86,6 +86,10 @@ public class TeacherServices {
             if(attendance.getPresent()=="false"){
                 parentEmails.add(student.getParentEmail());
             }
+            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+
+                    attendances.get(0).getAttendance().getDate();
+
+            sendAbsentMail(parentEmails, mailBody);
 
 
             //updating student progress (student progress=subject-student relation)
@@ -125,11 +129,19 @@ public class TeacherServices {
         }
     }
 
-    public void sendAbsentMail(){
+    public void sendAbsentMail(List<String> parentEmails, String body){
+        for(String email: parentEmails){
+            SimpleMailMessage mailMessage= new SimpleMailMessage();
+            mailMessage.setFrom("zeeshankalimkhan@gmail.com");
+            mailMessage.setTo(email);
+            mailMessage.setSubject("Regarding Attendance");
+            mailMessage.setText(body);
 
+            mailSender.send(mailMessage);
+        }
     }
 
-    public List<AttendanceEntity> detailedAttendance(String studentId, String subjectId) {
+    public List<AttendanceEntity> detailedAttendance(int studentId, int subjectId) {
         List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId,subjectId);
         return  attendanceList;
     }
@@ -152,7 +164,7 @@ public class TeacherServices {
         TeacherScheduleEntity teacherSchedule= teacherScheduleRepository.findByTeacherIdAndDay(teacherId,day);
 
         List<AvailableSlot> availableSlots= new ArrayList<>();
-        if(teacherSchedule.getSlot1()==null && batchSchedules.getSlot1()==null){
+        if(teacherSchedule.getSlot1()=="" && batchSchedules.getSlot1()==""){
             AvailableSlot slot=new AvailableSlot();
             slot.setSlot("Slot 1 is available");
             slot.setTeacherId(teacherId);
