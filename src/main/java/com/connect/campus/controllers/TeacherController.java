@@ -40,7 +40,7 @@ public class TeacherController {
     }
 
     @GetMapping("/detailed_attendance")
-    public List<AttendanceEntity> detailedAttendance(@RequestParam String studentId, @RequestParam  String subjectId){
+    public List<AttendanceEntity> detailedAttendance(@RequestParam int studentId, @RequestParam  int subjectId){
         return teacherServices.detailedAttendance(studentId,subjectId);
     }
 

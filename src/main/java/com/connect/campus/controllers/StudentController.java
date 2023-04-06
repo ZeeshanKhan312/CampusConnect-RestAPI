@@ -1,7 +1,6 @@
 package com.connect.campus.controllers;
 
-import com.connect.campus.entities.NotificationEntity;
-import com.connect.campus.entities.StudentEntity;
+import com.connect.campus.entities.*;
 import com.connect.campus.services.StudentServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +31,20 @@ public class StudentController {
     @GetMapping("/search_notification")
     public List<NotificationEntity> searchNotification(@RequestParam String title){
         return studentServices.searchNotification(title);
+    }
+
+    @GetMapping("/class_schedules")
+    public List<ScheduleEntity>  classSchedule(@RequestParam int studentId){
+        return studentServices.classSchedule(studentId);
+    }
+
+    @GetMapping("/view_subject_attendance")
+    public List<AttendanceEntity> viewSubjectAttendance(@RequestParam int studentId, @RequestParam int subjectId){
+        return studentServices.viewSubjectAttendance(studentId, subjectId);
+    }
+
+    @GetMapping("/view_marks")
+    public List<StudentProgressEntity> viewStudentMarks(@RequestParam int studentId){
+        return studentServices.viewStudentMarks(studentId);
     }
 }
