@@ -64,7 +64,7 @@ public class StudentServices {
         return attendanceList;
     }
 
-    public List<StudentProgressEntity> viewStudentMarks(int studentId) {
+    public List<StudentProgressEntity> viewStudentProgress(int studentId) {
         StudentEntity student= studentRepository.findByStudentId(studentId);
         return student.getStudentProgress();
     }
