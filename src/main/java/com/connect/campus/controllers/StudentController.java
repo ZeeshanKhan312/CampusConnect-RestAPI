@@ -43,8 +43,9 @@ public class StudentController {
         return studentServices.viewSubjectAttendance(studentId, subjectId);
     }
 
-    @GetMapping("/view_marks")
-    public List<StudentProgressEntity> viewStudentMarks(@RequestParam int studentId){
-        return studentServices.viewStudentMarks(studentId);
+    @GetMapping("/student_progress")
+    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId){
+        return studentServices.viewStudentProgress(studentId);
     }
+
 }
