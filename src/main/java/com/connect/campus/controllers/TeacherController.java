@@ -46,7 +46,7 @@ public class TeacherController {
     }
 
     @GetMapping("view_batch_attendance")
-    public List<StudentProgressEntity> viewBatchAttendance(@RequestParam String batchId,@RequestParam String subjectId){
+    public List<StudentProgressEntity> viewBatchAttendance(@RequestParam String batchId,@RequestParam int subjectId){
         return teacherServices.viewBatchAttendance(batchId, subjectId);
     }
 

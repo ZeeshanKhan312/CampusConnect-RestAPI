@@ -12,5 +12,5 @@ import java.util.List;
 public interface StudentProgressRepository extends JpaRepository<StudentProgressEntity, String > {
     public StudentProgressEntity findByProgressId(String id);
     @Query(value = "SELECT * FROM student_progress_table WHERE batch_id=:batchId AND subject_id=:subjectId ",nativeQuery = true)
-    public List<StudentProgressEntity> findByBatchIdAndSubjectId(@Param("batchId")String batchId, @Param("subjectId") String subjectId);
+    public List<StudentProgressEntity> findByBatchIdAndSubjectId(@Param("batchId")String batchId, @Param("subjectId") int subjectId);
 }
