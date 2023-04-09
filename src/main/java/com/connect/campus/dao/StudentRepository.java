@@ -20,5 +20,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Integer>
     public List<StudentEntity> findByBatchId(@Param("bId") String batchId);
     @Query(value = "SELECT batch_id FROM student_table WHERE student_id=:sId", nativeQuery = true)
     public String findBatchIdByStudentId(@Param("sId") int studentId);
+    @Query(value = "SELECT * FROM student_table WHERE fees_paid=:0", nativeQuery = true)
+    public List<StudentEntity> findUnpaidStudents();
 
 }
