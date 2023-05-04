@@ -219,7 +219,6 @@ public class TeacherServices {
         //SENDING EMAIL'S TASK
         List<String> studentsEmail= new ArrayList<>();
         for(StudentEntity student: students){
-            System.out.println(student.getStudentEmail());
             studentsEmail.add(student.getStudentEmail());
         }
         String emailSubject="Extra Class Mail";
