@@ -32,42 +32,6 @@ public class SchedulerServices {
     SubjectRepository subjectRepository;
     @Autowired
     JavaMailSender mailSender;
-//    @Async
-//    @Scheduled(fixedRate = 2000)
-//    public void scheduleTesting() throws InterruptedException{
-//        LocalDateTime time= LocalDateTime.now();
-//        DateTimeFormatter formatter= DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-//        String formattedTime=time.format(formatter);
-//        System.out.println("Scheduler Time: "+ formattedTime);
-//        Thread.sleep(5000);
-//    }
-
-//    @Async
-//    @Scheduled(initialDelay = 3,fixedDelay = 2,timeUnit = TimeUnit.SECONDS)
-//    public void testingSchedule(){
-//        log.info("INSIDE TESTING Schedule");
-//    }
-
-//    @Scheduled(fixedRateString = "PT12S")
-//    public void test(){
-//        log.info("FixedRate String");
-//    }
-
-//    @Scheduled(cron = "3 */1 * 4 * *")
-//    public void cron(){
-//        log.info("Testing CRON-- method");
-//    }
-
-//    @Scheduled(cron = "${cron.expression.value}")
-//    public void cronThroughApplProp(){
-//        log.info("Getting CRON values from application properties");
-//    }
-
-//    @Scheduled(cron = "@hourly")
-//    public void inBuiltMacros(){
-//        log.info("Using InBuilt macros in CRON");
-//    }
-
 
 //    @Scheduled(cron = "0 */2 * * * *")
     @Async
