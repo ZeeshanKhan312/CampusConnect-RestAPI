@@ -44,8 +44,8 @@ public class StudentController {
     }
 
     @GetMapping("/student_progress")
-    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId){
-        return studentServices.viewStudentProgress(studentId);
+    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId, @RequestParam String semester){
+        return studentServices.viewStudentProgress(studentId, semester);
     }
 
     @GetMapping("/fetch_exam_schedule")

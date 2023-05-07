@@ -15,6 +15,7 @@ public class StudentProgressEntity {
     String progressId;  //studentId+subjectName
     @Column(name = "batch_id")
     String batchId;
+    String semester;
     @NonNull
     int totalAttendance;
     @NonNull
