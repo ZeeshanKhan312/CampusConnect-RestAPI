@@ -107,7 +107,7 @@ public class AdminServices {
 
     public List<ExamScheduleEntity> fetchExamSchedule(String batchId){
         List<ExamScheduleEntity> schedule = new ArrayList <> ();
-        schedule = examScheduleRepository.findByExamSchedule(batchId);
+        schedule = examScheduleRepository.findByBatchId(batchId);
         return schedule;
     }
 

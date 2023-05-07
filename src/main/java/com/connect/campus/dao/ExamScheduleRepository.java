@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface ExamScheduleRepository extends JpaRepository<ExamScheduleEntity, Integer> {
     @Query(value = "SELECT * FROM exam_schedule WHERE batch_id=:batchId", nativeQuery = true)
-    public List<ExamScheduleEntity> findByExamSchedule(@Param("batchId") String batchId);
+    public List<ExamScheduleEntity> findByBatchId(@Param("batchId") String batchId);
 
 }
