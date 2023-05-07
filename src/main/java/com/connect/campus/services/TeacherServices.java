@@ -64,6 +64,7 @@ public class TeacherServices {
     }
 
     public void markAttendance(int subjectId, String batchId, List<MarkAttendance> attendances) {
+        String semester=batchRepository.findByCurrentSemester(batchId);
         List<String> parentEmails= new ArrayList<>();
         for(int i=0; i<attendances.size(); i++){
             StudentEntity student =studentRepository.findByStudentId(attendances.get(i).getStudentId());
@@ -81,15 +82,15 @@ public class TeacherServices {
             subjectAttendance.add(attendance);
             subjectRepository.save(subject);
 
-            //SENDING EMAIL TASK
-            //storing parents' email of those who have not attended the class
-            if(attendance.getPresent().equals("false")){
-                System.out.println("absent"+ student.getParentEmail());
-                parentEmails.add(student.getParentEmail());
-            }
-            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+ attendances.get(0).getAttendance().getDate();
-
-            sendAbsentMail(parentEmails, mailBody);
+//            //SENDING EMAIL TASK
+//            //storing parents' email of those who have not attended the class
+//            if(attendance.getPresent().equals("false")){
+//                System.out.println("absent"+ student.getParentEmail());
+//                parentEmails.add(student.getParentEmail());
+//            }
+//            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+ attendances.get(0).getAttendance().getDate();
+//
+//            sendAbsentMail(parentEmails, mailBody);
 
 
             //updating student progress (student progress=subject-student relation)
@@ -100,14 +101,15 @@ public class TeacherServices {
             float attendancePercentage;
             if(studentProgress==null){
                 studentProgress=new StudentProgressEntity();
-                studentProgress.setProgressId(student.getStudentId() + subject.getSubjectName());
+                studentProgress.setProgressId(id);
                 studentProgress.setBatchId(batchId);
+                studentProgress.setSemester(semester);
             }
             else {
                 totalAttendance=studentProgress.getTotalAttendance();
                 totalClasses=studentProgress.getTotalClasses();
-                studentProgress.setBatchId(batchId);
             }
+
             if(attendance.getPresent().equals("true")){
                 totalAttendance++;
                 studentProgress.setTotalAttendance(totalAttendance);

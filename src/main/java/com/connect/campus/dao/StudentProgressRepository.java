@@ -19,4 +19,7 @@ public interface StudentProgressRepository extends JpaRepository<StudentProgress
 
     @Query(value = "SELECT student_id,subject_id FROM student_progress_table WHERE attendance_percentage<:percentage", nativeQuery = true)
     public List<Object[]> getShortAttendanceList(@Param("percentage") int percentage);
+
+    @Query(value = "SELECT * FROM student_progress_table WHERE student_id=:studentId AND semester=:sem", nativeQuery = true)
+    public List<StudentProgressEntity> findStudentProgress(@Param("studentId") int studentId, @Param("sem") String semester);
 }

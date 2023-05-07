@@ -25,6 +25,8 @@ public class StudentServices {
 
     @Autowired
     BatchRepository batchRepository;
+    @Autowired
+    StudentProgressRepository studentProgressRepository;
     public StudentEntity studentLogin(int id, String password) {
         StudentEntity student=studentRepository.findByStudentIdAndPassword(id, password);
         System.out.println(student);
@@ -64,9 +66,9 @@ public class StudentServices {
         return attendanceList;
     }
 
-    public List<StudentProgressEntity> viewStudentProgress(int studentId) {
-        StudentEntity student= studentRepository.findByStudentId(studentId);
-        return student.getStudentProgress();
+    public List<StudentProgressEntity> viewStudentProgress(int studentId, String semester) {
+        List<StudentProgressEntity> list= studentProgressRepository.findStudentProgress(studentId, semester);
+        return list;
     }
 
     public List<ExamScheduleEntity> fetchExamSchedule(int studentId){
