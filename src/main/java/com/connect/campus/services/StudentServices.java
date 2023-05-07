@@ -1,9 +1,6 @@
 package com.connect.campus.services;
 
-import com.connect.campus.dao.AttendanceRepository;
-import com.connect.campus.dao.BatchRepository;
-import com.connect.campus.dao.NotificationRepository;
-import com.connect.campus.dao.StudentRepository;
+import com.connect.campus.dao.*;
 import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +19,9 @@ public class StudentServices {
 
     @Autowired
     AttendanceRepository attendanceRepository;
+
+    @Autowired
+    ExamScheduleRepository examScheduleRepository;
 
     @Autowired
     BatchRepository batchRepository;
@@ -67,5 +67,11 @@ public class StudentServices {
     public List<StudentProgressEntity> viewStudentProgress(int studentId) {
         StudentEntity student= studentRepository.findByStudentId(studentId);
         return student.getStudentProgress();
+    }
+
+    public List<ExamScheduleEntity> fetchExamSchedule(int studentId){
+        String batchId= studentRepository.findBatchIdByStudentId(studentId);
+        List<ExamScheduleEntity> schedule = examScheduleRepository.findByBatchId(batchId);
+        return schedule;
     }
 }
