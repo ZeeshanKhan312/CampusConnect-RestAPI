@@ -23,4 +23,7 @@ public class NotificationEntity {
     String notificationMessage;
     @NonNull
     String author;
+
+    @NonNull
+    String date;
 }
