@@ -7,7 +7,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -230,6 +232,9 @@ public class TeacherServices {
 
         //SENDING NOTICE TO NOTICE_TABLE
         NotificationEntity notice= new NotificationEntity();
+        Date date= new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("dd.MMM.yyyy");
+        notice.setDate(dateFormat.format(date));
         notice.setNotificationTitle("Extra Class Notice");
         notice.setNotificationMessage("This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on "+bookSlot.getDay()+" at " +bookSlot.getSlot());
         notice.setAuthor(teacher.getTeacherName());

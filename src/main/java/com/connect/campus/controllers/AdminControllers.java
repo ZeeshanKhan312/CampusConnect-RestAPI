@@ -85,8 +85,8 @@ public class AdminControllers {
     }
 
     @PutMapping("/update_batch_semester")
-    public void updateSemester(@RequestParam String batchId, @RequestParam String currSem){
-        adminServices.updateBatchSemester(batchId, currSem);
+    public void updateSemester(@RequestParam String batchId, @RequestParam String currSem, @RequestBody List<ScheduleEntity> schedules){
+        adminServices.updateBatchSemester(batchId, currSem, schedules);
     }
 
     @PostMapping("/add_teacher")

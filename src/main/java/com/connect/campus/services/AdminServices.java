@@ -111,9 +111,11 @@ public class AdminServices {
         return schedule;
     }
 
-    public void updateBatchSemester(String batchId, String currSem){
+    public void updateBatchSemester(String batchId, String currSem, List<ScheduleEntity> schedules){
         BatchEntity batch= batchRepository.findByBatchId(batchId);
         batch.setCurrentSemester(currSem);
+        batch.getSchedules().clear();
+        batch.setSchedules(schedules);
         List<StudentEntity> students=batch.getStudents();
         for(StudentEntity student: students){
             student.setFeesPaid(false);
