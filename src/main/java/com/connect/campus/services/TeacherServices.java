@@ -241,7 +241,6 @@ public class TeacherServices {
 
         sendNotice(notice);
 
-
     }
 
     public void sendExtraClassMail(List<String> studentsEmail,String subject, String body) {

@@ -5,7 +5,6 @@ import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.management.Notification;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class StudentServices {
     StudentProgressRepository studentProgressRepository;
     public StudentEntity studentLogin(int id, String password) {
         StudentEntity student=studentRepository.findByStudentIdAndPassword(id, password);
-        System.out.println(student);
         return student;
     }
 
@@ -50,8 +48,7 @@ public class StudentServices {
     }
 
     public List<NotificationEntity> searchNotification(String title) {
-        List<NotificationEntity> notifications= new ArrayList<>();
-        notifications=notificationRepository.findByNotificationTitle(title);
+        List<NotificationEntity> notifications= notificationRepository.findByNotificationTitle(title);
         return notifications;
     }
 

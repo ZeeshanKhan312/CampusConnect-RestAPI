@@ -17,32 +17,26 @@ public class StudentEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "student_id_generator")
     @SequenceGenerator(name = "student_id_generator",initialValue = 2000,allocationSize = 1,sequenceName = "student_table_sequence")
     int studentId;
-
     @NonNull
     String password;
-
     @NonNull
     String studentName;
-
     @NonNull
     String studentEmail;
-
     @NonNull
     String parentEmail;
-
     @NonNull
     Boolean feesPaid;
-
     String transactionId;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id",referencedColumnName = "student_id")
     List<AttendanceEntity> attendances;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id",referencedColumnName = "student_id")
     List<StudentProgressEntity> studentProgress;
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id",referencedColumnName = "parent_id")
+    ParentEntity parent;
     public StudentEntity() {
         feesPaid = true;
         password="12345";

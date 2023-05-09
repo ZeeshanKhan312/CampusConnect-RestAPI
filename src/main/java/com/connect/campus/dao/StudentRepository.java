@@ -23,4 +23,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Integer>
     @Query(value = "SELECT * FROM student_table WHERE fees_paid=:val", nativeQuery = true)
     public List<StudentEntity> findUnpaidStudents(@Param("val") int val);
 
+    @Query(value = "SELECT parent_id FROM student_table WHERE student_id=:sId", nativeQuery = true)
+    public int findParentId(@Param("sId") int id);
+
 }
