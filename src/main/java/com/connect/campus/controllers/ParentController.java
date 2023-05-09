@@ -48,13 +48,13 @@ public class ParentController {
         return parentServices.viewSubjectAttendance(studentId, subjectId);
     }
 
-//    @GetMapping("/student_progress")
-//    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId, @RequestParam String semester){
-//        return parentServices.viewStudentProgress(studentId, semester);
-//    }
-//
-//    @GetMapping("/fetch_exam_schedule")
-//    public List<ExamScheduleEntity> fetchingExamSchedule(@RequestParam int studentId){
-//        return parentServices.fetchExamSchedule(studentId);
-//    }
+    @GetMapping("/student_progress")
+    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId, @RequestParam String semester){
+        return parentServices.viewStudentProgress(studentId, semester);
+    }
+
+    @GetMapping("/fetch_exam_schedule")
+    public List<ExamScheduleEntity> fetchingExamSchedule(@RequestParam int studentId){
+        return parentServices.fetchExamSchedule(studentId);
+    }
 }

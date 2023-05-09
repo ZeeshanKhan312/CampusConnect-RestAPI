@@ -25,6 +25,10 @@ public class ParentServices {
     JavaMailSender mailSender;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    StudentProgressRepository studentProgressRepository;
+    @Autowired
+    ExamScheduleRepository examScheduleRepository;
 
     public void addParent(ParentEntity parent, int studentId) {
         StudentEntity student= studentRepository.findByStudentId(studentId);
@@ -87,6 +91,22 @@ public class ParentServices {
     public List<AttendanceEntity> viewSubjectAttendance(int studentId, int subjectId) {
         List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId, subjectId);
         return attendanceList;
+    }
+
+    public List<StudentProgressEntity> viewStudentProgress(int studentId, String semester) {
+        List<StudentProgressEntity> list= studentProgressRepository.findStudentProgress(studentId, semester);
+        if(list.isEmpty())
+            throw new ArithmeticException();
+        return list;
+    }
+
+    public List<ExamScheduleEntity> fetchExamSchedule(int studentId){
+        String batchId= studentRepository.findBatchIdByStudentId(studentId);
+        List<ExamScheduleEntity> schedule = examScheduleRepository.findByBatchId(batchId);
+        if(schedule.isEmpty())
+            throw new ArithmeticException();
+        else
+        return schedule;
     }
 
 }
