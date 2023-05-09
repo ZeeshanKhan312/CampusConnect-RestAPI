@@ -84,15 +84,15 @@ public class TeacherServices {
             subjectAttendance.add(attendance);
             subjectRepository.save(subject);
 
-//            //SENDING EMAIL TASK
-//            //storing parents' email of those who have not attended the class
-//            if(attendance.getPresent().equals("false")){
-//                System.out.println("absent"+ student.getParentEmail());
-//                parentEmails.add(student.getParentEmail());
-//            }
-//            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+ attendances.get(0).getAttendance().getDate();
-//
-//            sendAbsentMail(parentEmails, mailBody);
+            //SENDING EMAIL TASK
+            //storing parents' email of those who have not attended the class
+            if(attendance.getPresent().equals("false")){
+                System.out.println("absent"+ student.getParentEmail());
+                parentEmails.add(student.getParentEmail());
+            }
+            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+ attendances.get(0).getAttendance().getDate();
+
+            sendAbsentMail(parentEmails, mailBody);
 
 
             //updating student progress (student progress=subject-student relation)

@@ -45,13 +45,13 @@ public class ParentServices {
                 "Your Parent Account for student "+studentId+ " has been successfully created. You can find your User Id berlow\n " +
                 "User Id: " + parentId+"\n for any other query feel free to contact us.";
 
-//        SimpleMailMessage mailMessage= new SimpleMailMessage();
-//        mailMessage.setFrom("campusconnectJH@gmail.com");
-//        mailMessage.setTo(parent.getParentEmail());
-//        mailMessage.setSubject(subject);
-//        mailMessage.setText(body);
-//
-//        mailSender.send(mailMessage);
+        SimpleMailMessage mailMessage= new SimpleMailMessage();
+        mailMessage.setFrom("campusconnectJH@gmail.com");
+        mailMessage.setTo(parent.getParentEmail());
+        mailMessage.setSubject(subject);
+        mailMessage.setText(body);
+
+        mailSender.send(mailMessage);
     }
 
     public ParentEntity login(int parentId, String password){
