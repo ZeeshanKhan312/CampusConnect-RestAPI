@@ -34,24 +34,25 @@ public class ParentServices {
         StudentEntity student= studentRepository.findByStudentId(studentId);
         if(student.getParent()!=null)
             throw new ArithmeticException();
-        else
-        student.setParent(parent);
-        studentRepository.save(student);
+        else{
+            student.setParent(parent);
+            studentRepository.save(student);
 
-        int parentId=student.getParent().getParentId();
-        String subject, body;
-        subject="Your Account is Successfully Created";
-        body="Dear User\n" +
-                "Your Parent Account for student "+studentId+ " has been successfully created. You can find your User Id berlow\n " +
-                "User Id: " + parentId+"\n for any other query feel free to contact us.";
+            int parentId=student.getParent().getParentId();
+            String subject, body;
+            subject="Your Account is Successfully Created";
+            body="Dear User\n" +
+                    "Your Parent Account for student "+studentId+ " has been successfully created. You can find your User Id berlow\n " +
+                    "User Id: " + parentId+"\n for any other query feel free to contact us.";
 
-        SimpleMailMessage mailMessage= new SimpleMailMessage();
-        mailMessage.setFrom("campusconnectJH@gmail.com");
-        mailMessage.setTo(parent.getParentEmail());
-        mailMessage.setSubject(subject);
-        mailMessage.setText(body);
+            SimpleMailMessage mailMessage= new SimpleMailMessage();
+            mailMessage.setFrom("campusconnectJH@gmail.com");
+            mailMessage.setTo(parent.getParentEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(body);
 
-        mailSender.send(mailMessage);
+            mailSender.send(mailMessage);
+        }
     }
 
     public ParentEntity login(int parentId, String password){
@@ -90,6 +91,8 @@ public class ParentServices {
 
     public List<AttendanceEntity> viewSubjectAttendance(int studentId, int subjectId) {
         List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId, subjectId);
+        if(attendanceList.isEmpty())
+            throw new NullPointerException();
         return attendanceList;
     }
 

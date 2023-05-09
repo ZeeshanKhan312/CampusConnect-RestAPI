@@ -33,9 +33,9 @@ public class SchedulerServices {
     @Autowired
     JavaMailSender mailSender;
 
-//    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "0 0 */22 * * *")
     @Async
-    @Scheduled(cron = "0 59 23 28 * *" )
+//    @Scheduled(cron = "0 59 23 28 * *" )
     public void feesUnpaidMail(){
         List<StudentEntity> students=studentRepository.findUnpaidStudents(0);
 
@@ -92,9 +92,9 @@ public class SchedulerServices {
 
     }
 
-//    @Scheduled(cron = "0 */2 * * * *")
+    @Scheduled(cron = "0 0 */22 * * *")
     @Async
-    @Scheduled(cron = "0 59 23 28 * *" )
+//    @Scheduled(cron = "0 59 23 28 * *" )
     public void attendanceShortageMail(){
         List<Object[]> list= studentProgressRepository.getShortAttendanceList(60);
 
