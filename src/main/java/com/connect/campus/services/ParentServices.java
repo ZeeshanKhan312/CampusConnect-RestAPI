@@ -1,11 +1,7 @@
 package com.connect.campus.services;
 
-import com.connect.campus.dao.NotificationRepository;
-import com.connect.campus.dao.ParentRepository;
-import com.connect.campus.dao.StudentRepository;
-import com.connect.campus.entities.NotificationEntity;
-import com.connect.campus.entities.ParentEntity;
-import com.connect.campus.entities.StudentEntity;
+import com.connect.campus.dao.*;
+import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +17,10 @@ public class ParentServices {
     ParentRepository parentRepository;
     @Autowired
     NotificationRepository notificationRepository;
+    @Autowired
+    BatchRepository batchRepository;
+    @Autowired
+    AttendanceRepository attendanceRepository;
     @Autowired
     JavaMailSender mailSender;
     @Autowired
@@ -77,4 +77,16 @@ public class ParentServices {
         List<NotificationEntity> notifications= notificationRepository.findByNotificationTitle(title);
         return notifications;
     }
+
+    public List<ScheduleEntity> classSchedule(int studentId) {
+        String batchId= studentRepository.findBatchIdByStudentId(studentId);
+        BatchEntity batch=batchRepository.findByBatchId(batchId);
+        return  batch.getSchedules();
+    }
+
+    public List<AttendanceEntity> viewSubjectAttendance(int studentId, int subjectId) {
+        List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId, subjectId);
+        return attendanceList;
+    }
+
 }

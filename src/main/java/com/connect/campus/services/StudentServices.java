@@ -55,7 +55,7 @@ public class StudentServices {
     public List<ScheduleEntity> classSchedule(int studentId) {
         String batchId= studentRepository.findBatchIdByStudentId(studentId);
         BatchEntity batch=batchRepository.findByBatchId(batchId);
-        return  batch.getSchedules();
+        return batch.getSchedules();
     }
 
     public List<AttendanceEntity> viewSubjectAttendance(int studentId, int subjectId) {

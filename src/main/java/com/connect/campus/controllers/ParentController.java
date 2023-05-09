@@ -38,16 +38,16 @@ public class ParentController {
         return parentServices.searchNotification(title);
     }
 
-//    @GetMapping("/class_schedules")
-//    public List<ScheduleEntity>  classSchedule(@RequestParam int studentId){
-//        return parentServices.classSchedule(studentId);
-//    }
-//
-//    @GetMapping("/view_subject_attendance")
-//    public List<AttendanceEntity> viewSubjectAttendance(@RequestParam int studentId, @RequestParam int subjectId){
-//        return parentServices.viewSubjectAttendance(studentId, subjectId);
-//    }
-//
+    @GetMapping("/class_schedules")
+    public List<ScheduleEntity>  classSchedule(@RequestParam int studentId){
+        return parentServices.classSchedule(studentId);
+    }
+
+    @GetMapping("/view_subject_attendance")
+    public List<AttendanceEntity> viewSubjectAttendance(@RequestParam int studentId, @RequestParam int subjectId){
+        return parentServices.viewSubjectAttendance(studentId, subjectId);
+    }
+
 //    @GetMapping("/student_progress")
 //    public List<StudentProgressEntity> viewStudentProgress(@RequestParam int studentId, @RequestParam String semester){
 //        return parentServices.viewStudentProgress(studentId, semester);
