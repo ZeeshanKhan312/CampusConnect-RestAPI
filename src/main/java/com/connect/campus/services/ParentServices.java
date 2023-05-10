@@ -42,7 +42,7 @@ public class ParentServices {
             String subject, body;
             subject="Your Account is Successfully Created";
             body="Dear User\n" +
-                    "Your Parent Account for student "+studentId+ " has been successfully created. You can find your User Id berlow\n " +
+                    "Your Parent Account for student "+studentId+ " has been successfully created. You can find your User Id below\n " +
                     "User Id: " + parentId+"\n for any other query feel free to contact us.";
 
             SimpleMailMessage mailMessage= new SimpleMailMessage();

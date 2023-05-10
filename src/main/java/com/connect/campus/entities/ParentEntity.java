@@ -23,4 +23,9 @@ public class ParentEntity {
     String password;
     @NonNull
     String parentEmail;
+    @NonNull
+    String name;
+    @Column(name = "student_id")
+    @NonNull
+    int studentId;
 }
