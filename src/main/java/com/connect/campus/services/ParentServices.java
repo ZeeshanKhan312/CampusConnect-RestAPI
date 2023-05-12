@@ -108,7 +108,6 @@ public class ParentServices {
         List<ExamScheduleEntity> schedule = examScheduleRepository.findByBatchId(batchId);
         if(schedule.isEmpty())
             throw new ArithmeticException();
-        else
         return schedule;
     }
 

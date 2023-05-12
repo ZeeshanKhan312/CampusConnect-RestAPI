@@ -28,6 +28,8 @@ public class StudentServices {
     StudentProgressRepository studentProgressRepository;
     public StudentEntity studentLogin(int id, String password) {
         StudentEntity student=studentRepository.findByStudentIdAndPassword(id, password);
+        if(student==null)
+            throw new NullPointerException();
         return student;
     }
 
@@ -60,17 +62,23 @@ public class StudentServices {
 
     public List<AttendanceEntity> viewSubjectAttendance(int studentId, int subjectId) {
         List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId, subjectId);
+        if(attendanceList.isEmpty())
+            throw  new NullPointerException();
         return attendanceList;
     }
 
     public List<StudentProgressEntity> viewStudentProgress(int studentId, String semester) {
         List<StudentProgressEntity> list= studentProgressRepository.findStudentProgress(studentId, semester);
+        if(list.isEmpty())
+            throw new NullPointerException();
         return list;
     }
 
     public List<ExamScheduleEntity> fetchExamSchedule(int studentId){
         String batchId= studentRepository.findBatchIdByStudentId(studentId);
         List<ExamScheduleEntity> schedule = examScheduleRepository.findByBatchId(batchId);
+        if(schedule.isEmpty())
+            throw new ArithmeticException();
         return schedule;
     }
 }

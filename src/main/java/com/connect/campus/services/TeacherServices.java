@@ -62,6 +62,8 @@ public class TeacherServices {
     public List<StudentEntity> batchStudents(String batchId) {
         List<StudentEntity> students=new ArrayList<>();
         students.addAll(studentRepository.findByBatchId(batchId));
+        if(students.isEmpty())
+            throw new NullPointerException();
         return students;
     }
 
@@ -148,11 +150,15 @@ public class TeacherServices {
 
     public List<AttendanceEntity> detailedAttendance(int studentId, int subjectId) {
         List<AttendanceEntity> attendanceList= attendanceRepository.findByStudentIdAndSubjectId(studentId,subjectId);
+        if(attendanceList.isEmpty())
+            throw new NullPointerException();
         return  attendanceList;
     }
 
     public List<StudentProgressEntity> viewBatchAttendance(String batchId, int subjectId) {
         List<StudentProgressEntity> batchProgress=studentProgressRepository.findByBatchIdAndSubjectId(batchId,subjectId);
+        if(batchProgress.isEmpty())
+            throw new NullPointerException();
         return  batchProgress;
     }
 
