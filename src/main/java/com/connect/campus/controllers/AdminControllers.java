@@ -129,6 +129,11 @@ public class AdminControllers {
         adminServices.addNotification(notification);
     }
 
+    @DeleteMapping("/delete_notice")
+    public void deleteNotice(@RequestParam int noticeID){
+        adminServices.deleteNotice(noticeID);
+    }
+
     @GetMapping("/search_notification")
     public List<NotificationEntity> searchNotification(@RequestParam String title){
         return adminServices.searchNotification(title);

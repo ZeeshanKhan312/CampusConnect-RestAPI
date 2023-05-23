@@ -179,4 +179,7 @@ public class AdminServices {
         return notifications;
     }
 
+    public void deleteNotice(int noticeID) {
+        notificationRepository.deleteById(noticeID);
+    }
 }

@@ -5,14 +5,19 @@ import com.connect.campus.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
+@EnableAsync
 public class TeacherServices {
     @Autowired
     TeacherRepository teacherRepository;
@@ -89,10 +94,9 @@ public class TeacherServices {
             //SENDING EMAIL TASK
             //storing parents' email of those who have not attended the class
             if(attendance.getPresent().equals("false")){
-                System.out.println("absent"+ student.getParentEmail());
                 parentEmails.add(student.getParentEmail());
             }
-            String mailBody="This is to inform you that your child has not attended class of"+ subjectId +"on"+ attendances.get(0).getAttendance().getDate();
+            String mailBody="This is to inform you that your child "+student.getStudentName()+" has not attended class of "+ subjectId +" on "+ attendances.get(0).getAttendance().getDate();
 
             sendAbsentMail(parentEmails, mailBody);
 
@@ -136,11 +140,10 @@ public class TeacherServices {
     }
 
     public void sendAbsentMail(List<String> parentEmails, String body){
-        for(String email: parentEmails){
+        for(int i=0;i<parentEmails.size();i++){
             SimpleMailMessage mailMessage= new SimpleMailMessage();
-            System.out.println("sending mail "+ email);
             mailMessage.setFrom("campusconnectJH@gmail.com");
-            mailMessage.setTo(email);
+            mailMessage.setTo(parentEmails.get(i));
             mailMessage.setSubject("Regarding Attendance");
             mailMessage.setText(body);
 
@@ -177,7 +180,7 @@ public class TeacherServices {
         List<AvailableSlot> availableSlots= new ArrayList<>();
         if(teacherSchedule.getSlot1().equals("") && batchSchedules.getSlot1().equals("")){
             AvailableSlot slot=new AvailableSlot();
-            slot.setSlot("Slot 1 ");
+            slot.setSlot("Slot 1");
             slot.setTeacherId(teacherId);
             slot.setBatchId(batchId);
             slot.setDay(day);
@@ -185,7 +188,7 @@ public class TeacherServices {
         }
         if(teacherSchedule.getSlot2().equals("") && batchSchedules.getSlot2().equals("")){
             AvailableSlot slot=new AvailableSlot();
-            slot.setSlot("Slot 2 ");
+            slot.setSlot("Slot 2");
             slot.setTeacherId(teacherId);
             slot.setBatchId(batchId);
             slot.setDay(day);
@@ -193,25 +196,23 @@ public class TeacherServices {
         }
         if(teacherSchedule.getSlot3().equals("") && batchSchedules.getSlot3().equals("")){
             AvailableSlot slot=new AvailableSlot();
-            slot.setSlot("Slot 3 ");
+            slot.setSlot("Slot 3");
             slot.setTeacherId(teacherId);
             slot.setBatchId(batchId);
             slot.setDay(day);
             availableSlots.add(slot);
-            System.out.println(availableSlots);
         }
         if(teacherSchedule.getSlot4().equals("") && batchSchedules.getSlot4().equals("")){
             AvailableSlot slot=new AvailableSlot();
-            slot.setSlot("Slot 4 ");
+            slot.setSlot("Slot 4");
             slot.setTeacherId(teacherId);
             slot.setBatchId(batchId);
             slot.setDay(day);
             availableSlots.add(slot);
-            System.out.println(availableSlots);
         }
         if(teacherSchedule.getSlot5().equals("") && batchSchedules.getSlot5().equals("")){
             AvailableSlot slot=new AvailableSlot();
-            slot.setSlot("Slot 5 ");
+            slot.setSlot("Slot 5");
             slot.setTeacherId(teacherId);
             slot.setBatchId(batchId);
             slot.setDay(day);
@@ -225,6 +226,36 @@ public class TeacherServices {
         BatchEntity batch= batchRepository.findByBatchId(bookSlot.getBatchId());
         TeacherEntity teacher=teacherRepository.findByTeacherId(bookSlot.getTeacherId());
         List<StudentEntity>students=batch.getStudents();
+        String text= "This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on coming "+bookSlot.getDay()+" at " +bookSlot.getSlot()+ " of subject " +teacher.getSubject().getSubjectName();
+
+//        ScheduleEntity schedule=batchScheduleRepository.findByBatchIdAndDay(bookSlot.getBatchId(), bookSlot.getDay());
+//        TeacherScheduleEntity teacherSchedule= teacherScheduleRepository.findByTeacherIdAndDay(bookSlot.getTeacherId(), bookSlot.getDay());
+//        if(bookSlot.getSlot().equals("Slot 1")) {
+//            schedule.setSlot1(""+teacher.getSubject().getSubjectId());
+//            teacherSchedule.setSlot1(bookSlot.getBatchId());
+//        }
+//        else if (bookSlot.getSlot().equals("Slot 2")) {
+//            schedule.setSlot2(""+teacher.getSubject().getSubjectId());
+//            teacherSchedule.setSlot2(bookSlot.getBatchId());
+//        }
+//        else if (bookSlot.getSlot().equals("Slot 3")) {
+//            schedule.setSlot3(""+teacher.getSubject().getSubjectId());
+//            teacherSchedule.setSlot3(bookSlot.getBatchId());
+//        }
+//        else if (bookSlot.getSlot().equals("Slot 4")) {
+//            schedule.setSlot4(""+teacher.getSubject().getSubjectId());
+//            teacherSchedule.setSlot4(bookSlot.getBatchId());
+//        }
+//        else if (bookSlot.getSlot().equals("Slot 5")) {
+//            schedule.setSlot5(""+teacher.getSubject().getSubjectId());
+//            teacherSchedule.setSlot5(bookSlot.getBatchId());
+//        }
+//
+////        batch.setSchedules();
+//        batchScheduleRepository.save(schedule);
+//        teacherScheduleRepository.save(teacherSchedule);
+//
+//        changeScheduleBack(bookSlot);
 
         //SENDING EMAIL'S TASK
         List<String> studentsEmail= new ArrayList<>();
@@ -232,19 +263,17 @@ public class TeacherServices {
             studentsEmail.add(student.getStudentEmail());
         }
         String emailSubject="Extra Class Mail";
-        String emailBody="This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on "+bookSlot.getDay()+" at " +bookSlot.getSlot() ;
-
+        String emailBody=text ;
         sendExtraClassMail(studentsEmail,emailSubject,emailBody);
 
         //SENDING NOTICE TO NOTICE_TABLE
         NotificationEntity notice= new NotificationEntity();
         Date date= new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd.MMM.yyyy");
-        notice.setDate(dateFormat.format(date));
+        notice.setDate(""+dateFormat.format(date));
         notice.setNotificationTitle("Extra Class Notice");
-        notice.setNotificationMessage("This is to notify the students of "+ bookSlot.getBatchId() + " that they have an extra class on "+bookSlot.getDay()+" at " +bookSlot.getSlot());
+        notice.setNotificationMessage(text);
         notice.setAuthor(teacher.getTeacherName());
-
         sendNotice(notice);
 
     }
@@ -264,6 +293,39 @@ public class TeacherServices {
     public void sendNotice(NotificationEntity notice){
         notificationRepository.save(notice);
     }
+
+//    @Async
+//    @Scheduled(initialDelay = 5, fixedDelay = Long.MAX_VALUE, timeUnit = TimeUnit.MINUTES)
+//    public void changeScheduleBack(AvailableSlot slot){
+//        //changing the schedule of batchId
+////        BatchEntity batch=batchRepository.findByBatchId(slot.getBatchId());
+//        ScheduleEntity schedule=batchScheduleRepository.findByBatchIdAndDay(slot.getBatchId(), slot.getDay());
+//        TeacherScheduleEntity teacherSchedule= teacherScheduleRepository.findByTeacherIdAndDay(slot.getTeacherId(), slot.getDay());
+//        if(slot.getSlot().equals("Slot 1")) {
+//            schedule.setSlot1("");
+//            teacherSchedule.setSlot1("");
+//        }
+//        else if (slot.getSlot().equals("Slot 2")) {
+//            schedule.setSlot2("");
+//            teacherSchedule.setSlot2("");
+//        }
+//        else if (slot.getSlot().equals("Slot 3")) {
+//            schedule.setSlot3("");
+//            teacherSchedule.setSlot3("");
+//        }
+//        else if (slot.getSlot().equals("Slot 4")) {
+//            schedule.setSlot4("");
+//            teacherSchedule.setSlot4("");
+//        }
+//        else if (slot.getSlot().equals("Slot 5")) {
+//            schedule.setSlot5("");
+//            teacherSchedule.setSlot5("");
+//        }
+//
+//        batchScheduleRepository.save(schedule);
+//        teacherScheduleRepository.save(teacherSchedule);
+//
+//    }
 
     public List<NotificationEntity> searchNotice(String title) {
         List<NotificationEntity>notices =notificationRepository.findByNotificationTitle(title);
