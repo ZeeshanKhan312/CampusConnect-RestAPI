@@ -13,5 +13,6 @@ import java.util.List;
 public interface TeacherRepository extends JpaRepository<TeacherEntity,Integer> {
     public TeacherEntity findByTeacherId(int id);
     public TeacherEntity findByTeacherIdAndTeacherPassword(int id, String password);
+    @Query(value = "SELECT * FROM teacher_table WHERE teacher_name LIKE %:name%",nativeQuery = true)
     public List<TeacherEntity> findByTeacherName(String name);
 }

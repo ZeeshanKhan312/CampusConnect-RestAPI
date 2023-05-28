@@ -14,7 +14,7 @@ public interface StudentRepository extends JpaRepository<StudentEntity, Integer>
     public StudentEntity findByStudentId(@Param("id") int studentId);
 
     public StudentEntity findByStudentIdAndPassword(@Param("id") int id, @Param("paswd") String password);
-    @Query(value = "SELECT * FROM student_table WHERE student_name =:name", nativeQuery = true)
+    @Query(value = "SELECT * FROM student_table WHERE student_name LIKE %:name%", nativeQuery = true)
     public List<StudentEntity> findByStudentName(@Param("name") String name);
     @Query(value="SELECT * FROM student_table WHERE batch_id =:bId", nativeQuery = true)
     public List<StudentEntity> findByBatchId(@Param("bId") String batchId);
